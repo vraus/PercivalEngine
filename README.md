@@ -12,9 +12,19 @@ The `Scripts/` directory contains build scripts for Windows and Linux, and the `
 
 ## Sources
 
++ Vulkan Related Documentation
+    + [Vulkan](https://www.vulkan.org)
+    + [Vulkan's API Documentation](https://docs.vulkan.org/spec/latest/index.html)
+    + [Khronos Vulkan Tutorial](https://docs.vulkan.org/tutorial/latest/00_Introduction.html)
+    + ["Vulkan Tutorial", Alexander Overvoorde](https://vulkan-tutorial.com)
+    + [Writing an efficient Vulkan renderer](https://zeux.io/2020/02/27/writing-an-efficient-vulkan-renderer/)
++ Documentation
+    + [Premake Documentation](https://premake.github.io/docs/)
 + WebSites
     + [A Simple ECS System (C++), A. Morlan](https://austinmorlan.com/posts/entity_component_system/)
-    + [scratchapixel.com](https://scratchapixel.com/index.html)
+    + [Computer Graphics Programming](https://scratchapixel.com/index.html)
+    + [Introduction to Component Based Architecture in Games](https://www.kodeco.com/2806-introduction-to-component-based-architecture-in-games)
+    + [Awesome Creative Coding](https://project-awesome.org/terkelg/awesome-creative-coding)
 + Books
     + [(3rd ed) Game Engine Architecture, J. Gregory](Resources/game-engine-architecture-3rded.pdf)
     + [Programmer efficacement en C++, S.Meyers](https://www.dunod.com/sciences-techniques/programmer-efficacement-en-c-42-conseils-pour-mieux-maitriser-c-11-et-c-14)
