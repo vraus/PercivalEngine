@@ -1,4 +1,5 @@
 #include "Core.h"
+#include "Renderer/VulkanDevice.hpp"
 
 #include <iostream>
 
@@ -6,7 +7,7 @@ namespace Core {
 
 	void PrintHelloWorld()
 	{
-		std::cout << "Hello World!\n";
+		VulkanDevice::VulkanDevice();
 		std::cin.get();
 	}
 
