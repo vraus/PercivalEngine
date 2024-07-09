@@ -11,20 +11,25 @@ project "Percival-Engine"
    {
       "Source",
       "C:/VulkanSDK/1.3.280.0/Include",
-      "C:/Users/hadri/Documents/Visual Studio 2022/Libraries/glfw-3.4.bin.WIN64",
-      "C:/Users/hadri/Documents/Visual Studio 2022/Libraries/glm-1.0.1"
-   }
-
-   links
-   {
-       "vulkan-1.lib",
-       "glfw3.lib"
+      "C:/VulkanSDK/1.3.283.0/Include",
+      "C:/Users/hadri/Documents/Visual Studio 2022/Libraries/glfw-3.4.bin.WIN64/include",
+      "C:/Users/hadri/Documents/Visual Studio 2022/Libraries/glm-1.0.1",
+      "C:/Users/hbelleville/Documents/Visual Studio 2022/Libraries/glfw-3.4.bin.WIN64/include",
+      "C:/Users/hbelleville/Documents/Visual Studio 2022/Libraries/glm-1.0.1"
    }
 
    libdirs
    {
       "C:/VulkanSDK/1.3.280.0/Lib",
+      "C:/VulkanSDK/1.3.283.0/Lib",
       "C:/Users/hadri/Documents/Visual Studio 2022/Libraries/glfw-3.4.bin.WIN64/lib-vc2022",
+      "C:/Users/hbelleville/Documents/Visual Studio 2022/Libraries/glfw-3.4.bin.WIN64/lib-vc2022"
+   }
+   
+   links
+   {
+       "vulkan-1.lib",
+       "glfw3.lib"
    }
 
    targetdir ("../Binaries/" .. OutputDir .. "/%{prj.name}")

@@ -1,6 +1,10 @@
 #include "Core/Core.h"
+#include <iostream>
 
-int main()
-{
-	Core::PrintHelloWorld();
+using namespace vraus_Percival;
+
+int main() {
+	Core core;
+	core.Init();
+	return 0;
 }
