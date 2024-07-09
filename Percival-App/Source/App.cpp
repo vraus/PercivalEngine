@@ -1,10 +1,10 @@
-#include "Core/Core.h"
+#include "Core/api/Engine.hpp"
 #include <iostream>
 
 using namespace vraus_Percival;
 
 int main() {
-	Core core;
-	core.Init();
+	Engine engine;
+	engine.Init();
 	return 0;
 }
