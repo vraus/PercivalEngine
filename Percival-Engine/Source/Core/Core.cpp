@@ -1,13 +1,14 @@
 #include "Core.h"
 #include "Renderer/VulkanDevice.hpp"
+#include "api/Engine.hpp"
 
 #include <iostream>
 
-namespace Core {
+namespace vraus_Percival {
 
 	void PrintHelloWorld()
 	{
-		VulkanDevice::VulkanDevice();
+		Engine::Engine();
 		std::cin.get();
 	}
 

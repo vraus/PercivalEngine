@@ -10,6 +10,7 @@ project "Percival-App"
    includedirs
    {
       "Source",
+      
 
 	  -- Include Core
 	  "../Percival-Engine/Source"
