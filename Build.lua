@@ -2,7 +2,7 @@
 workspace "Project Percival"
    architecture "x64"
    configurations { "Debug", "Release", "Dist" }
-   startproject "Percival-App"
+   startproject "Percival-Editor"
 
    -- Workspace-wide build options for MSVC
    filter "system:windows"
@@ -11,7 +11,7 @@ workspace "Project Percival"
 OutputDir = "%{cfg.system}-%{cfg.architecture}/%{cfg.buildcfg}"
 
 group "Core"
-	include "Percival-Engine/Build-Core.lua"
+	include "Percival-Core/Build-Core.lua"
 group ""
 
-include "Percival-App/Build-App.lua"
+include "Percival-Editor/Build-Editor.lua"

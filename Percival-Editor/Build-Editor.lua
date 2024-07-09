@@ -1,5 +1,5 @@
-project "Percival-Engine"
-   kind "StaticLib"
+project "Percival-Editor"
+   kind "ConsoleApp"
    language "C++"
    cppdialect "C++20"
    targetdir "Binaries/%{cfg.buildcfg}"
@@ -12,8 +12,11 @@ project "Percival-Engine"
       "Source",
       "C:/VulkanSDK/1.3.280.0/Include",
       "C:/Users/hadri/Documents/Visual Studio 2022/Libraries/glfw-3.4.bin.WIN64/include",
-      "C:/Users/hadri/Documents/Visual Studio 2022/Libraries/glm-1.0.1"
-   }
+      "C:/Users/hadri/Documents/Visual Studio 2022/Libraries/glm-1.0.1",
+
+	  -- Include Core
+	  "../Percival-Core/Source"
+   } 
 
    libdirs
    {
@@ -23,8 +26,9 @@ project "Percival-Engine"
    
    links
    {
-       "vulkan-1.lib",
-       "glfw3.lib"
+      "Percival-Core",
+      "vulkan-1.lib",
+      "glfw3.lib"
    }
 
    targetdir ("../Binaries/" .. OutputDir .. "/%{prj.name}")
@@ -32,7 +36,7 @@ project "Percival-Engine"
 
    filter "system:windows"
        systemversion "latest"
-       defines { }
+       defines { "WINDOWS" }
 
    filter "configurations:Debug"
        defines { "DEBUG" }

@@ -9,12 +9,18 @@
 #include <glm/mat4x4.hpp>
 
 #include <iostream>
+#include <stdexcept>
 
-namespace vraus_Percival {
+namespace VrausPercival {
+	
 	class Engine {
 	public:
 		Engine(){}
 
-		void Init();
+		void run();
+	private:
+		void init() {}
+		void mainLoop() {}
+		void cleanup() {}
 	};
 }
