@@ -7,7 +7,7 @@ int main() {
 	VrausPercival::Engine engine;
 
 	try {
-		engine.run();
+		engine.run(); // The editor runs the Core Engine
 	}
 	catch (const std::exception& e) {
 		std::cerr << e.what() << std::endl;

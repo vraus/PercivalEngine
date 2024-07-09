@@ -15,12 +15,21 @@ namespace VrausPercival {
 	
 	class Engine {
 	public:
-		Engine(){}
+		static constexpr int WIDTH = 800;
+		static constexpr int HEIGHT = 600;
 
-		void run();
+		Engine() {}
+		~Engine() {}
+
+		Engine(const Engine&) = delete;
+		Engine& operator=(const Engine&) = delete;
+
+		void run(); // This initialize everything (for now)
+
 	private:
-		void init() {}
-		void mainLoop() {}
-		void cleanup() {}
+		void initEngine();
+		void createInstance();
+
+		VkInstance instance{};
 	};
 }

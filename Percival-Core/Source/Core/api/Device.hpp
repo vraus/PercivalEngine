@@ -1,5 +1,11 @@
 #pragma once
-class Device
-{
-};
 
+#include "window.hpp"
+
+namespace VrausPercival {
+
+	class Device
+	{
+	};
+
+}
