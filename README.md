@@ -8,6 +8,8 @@
 
 ## Introduction
 
+**This is the futur new version of my old previous [Tiny Renderer Engine](https://github.com/vraus/testVulkan)... But now trying to make it correctly using and architecture and a builder.**
+
 This project uses a Core/App architecture.
 
 Percival-Engine builds into a static library and is meant to contain common code intended for use in multiple applications.
