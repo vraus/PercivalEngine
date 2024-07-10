@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Window.hpp"
+
 #define GLFW_INCLUDE_VULKAN
 #include <GLFW/glfw3.h>
 
@@ -10,6 +12,7 @@
 
 #include <iostream>
 #include <stdexcept>
+#include <vector>
 
 namespace VrausPercival {
 	
@@ -29,7 +32,10 @@ namespace VrausPercival {
 	private:
 		void initEngine();
 		void createInstance();
+		void cleanup();
 
 		VkInstance instance{};
+
+		GLFWwindow* window;
 	};
 }

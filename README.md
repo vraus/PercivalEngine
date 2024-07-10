@@ -26,6 +26,8 @@ The `Scripts/` directory contains build scripts for Windows and Linux, and the `
   + [Khronos Vulkan Tutorial](https://docs.vulkan.org/tutorial/latest/00_Introduction.html)
   + ["Vulkan Tutorial", Alexander Overvoorde](https://vulkan-tutorial.com)
   + [Writing an efficient Vulkan renderer](https://zeux.io/2020/02/27/writing-an-efficient-vulkan-renderer/)
+  + [Khronos Vulkan Registry](https://registry.khronos.org/vulkan/#apispecs)
+    + [Vulkan 1.3 Specs](https://registry.khronos.org/vulkan/specs/1.3/html/index.html)
 + **Documentation**
   + [Premake Documentation](https://premake.github.io/docs/)
 + **WebSites**

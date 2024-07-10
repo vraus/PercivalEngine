@@ -8,6 +8,7 @@ int main() {
 
 	try {
 		engine.run(); // The editor runs the Core Engine
+		std::cin.get();
 	}
 	catch (const std::exception& e) {
 		std::cerr << e.what() << std::endl;
