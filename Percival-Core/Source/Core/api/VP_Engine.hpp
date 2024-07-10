@@ -1,14 +1,7 @@
 #pragma once
 
 #include "VP_Window.hpp"
-
-#define GLFW_INCLUDE_VULKAN
-#include <GLFW/glfw3.h>
-
-#define GLM_FORCE_RADIANS
-#define GLM_FORCE_DEPTH_ZERO_TO_ONE
-#include <glm/vec4.hpp>
-#include <glm/mat4x4.hpp>
+#include "VP_Device.hpp"
 
 #include <iostream>
 #include <stdexcept>
@@ -31,11 +24,9 @@ namespace VrausPercival {
 
 	private:
 		void initEngine();
-		void createInstance();
 		void cleanup();
 
-		VkInstance instance{};
-
-		GLFWwindow* window;
+		Window window{};
+		Device device{ window };
 	};
 }
