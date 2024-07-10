@@ -44,6 +44,7 @@ The `Scripts/` directory contains build scripts for Windows and Linux, and the `
   + [Core Techniques and Algorithms in Game Engine](https://theswissbay.ch/pdf/Gentoomen%20Library/Algorithms/Core%20Techniques%20and%20Algorithms%20in%20Game%20Programming.pdf)
 + **Videos**
   + [How to Properly Setup C++ Projects](https://www.youtube.com/watch?v=5glH8dGoeCA)
+  + [Make Beautiful Desktop Applications in C++](https://www.youtube.com/watch?v=-NJDxf4XwlQ)
   + [Kohi #000: Game Engine Architecture and Overview (Vulkan Game Engine Series)](https://www.youtube.com/watch?v=teg23SJlyl8)
   + [Game Engine Architecture: Bill Clark (CodeLabs Tech Talk 2020)](https://www.youtube.com/watch?v=mUeNqLcx4eI)
 + **GitHub Inspirations**
