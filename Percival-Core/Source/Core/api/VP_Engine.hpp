@@ -20,11 +20,11 @@ namespace VrausPercival {
 		Engine(const Engine&) = delete;
 		Engine& operator=(const Engine&) = delete;
 
-		void run(); // This initialize everything (for now)
+		void run() {} // This initialize everything (for now)
 
 	private:
-		void initEngine();
-		void cleanup();
+		void initEngine() {}
+		void cleanup() {}
 
 		Window window{};
 		Device device{ window };

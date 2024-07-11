@@ -2,13 +2,4 @@
 
 namespace VrausPercival {
 
-	void Engine::run()
-	{
-		initEngine();
-	}
-
-	void Engine::initEngine()
-	{
-	}
-
 }
