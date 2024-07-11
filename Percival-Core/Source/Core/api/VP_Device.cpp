@@ -1,6 +1,6 @@
 #include "VP_Device.hpp"
 
-VrausPercival::Device::Device(Window& window) : window{window}
+VrausPercival::Device::Device(Window& window) : window{&window}
 {
 	createInstance();
 	setupDebugMessenger();
@@ -39,11 +39,24 @@ void VrausPercival::Device::createInstance()
 		createInfo.enabledLayerCount = 0;
 	}
 
+	VkDebugUtilsMessengerCreateInfoEXT debugCreateInfo{};
+	if (enableValidationLayers) {
+		createInfo.enabledLayerCount = static_cast<uint32_t>(validationLayers.size());
+		createInfo.ppEnabledLayerNames = validationLayers.data();
+
+		populateDebugMessengerCreateInfo(debugCreateInfo);
+		createInfo.pNext = (VkDebugUtilsMessengerCreateInfoEXT*) &debugCreateInfo;
+	}
+	else {
+		createInfo.enabledLayerCount = 0;
+		createInfo.pNext = nullptr;
+	}
+
 	if (vkCreateInstance(&createInfo, nullptr, &instance) != VK_SUCCESS)
 		throw std::runtime_error("Failed to create instance!");
 }
 
-void VrausPercival::Device::cleanup()
+void VrausPercival::Device::cleanup() const
 {
 	if (enableValidationLayers) {
 		DestroyDebugUtilsMessengerEXT(instance, debugMessenger, nullptr);
@@ -61,6 +74,16 @@ void VrausPercival::Device::setupDebugMessenger()
 	if (!enableValidationLayers) return;
 
 	VkDebugUtilsMessengerCreateInfoEXT createInfo{};
+	populateDebugMessengerCreateInfo(createInfo);
+
+	if (CreateDebugUtilsMessengerEXT(instance, &createInfo, nullptr, &debugMessenger) != VK_SUCCESS) {
+		throw std::runtime_error("Failed to setup deubg messenger!");
+	}
+}
+
+void VrausPercival::Device::populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo)
+{
+	createInfo = {};
 	createInfo.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
 	createInfo.messageSeverity = VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT
 		| VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT
@@ -69,11 +92,6 @@ void VrausPercival::Device::setupDebugMessenger()
 		| VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT
 		| VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT;
 	createInfo.pfnUserCallback = debugcallback;
-	createInfo.pUserData = this;
-
-	if (CreateDebugUtilsMessengerEXT(instance, &createInfo, nullptr, &debugMessenger) != VK_SUCCESS) {
-		throw std::runtime_error("Failed to setup deubg messenger!");
-	}
 }
 
 bool VrausPercival::Device::checkValidationLayerSupport()
