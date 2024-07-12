@@ -182,11 +182,42 @@ int VrausPercival::Device::rateDeviceSuitability(VkPhysicalDevice device)
 	// Maximum possible size of textures affects graphics quality
 	score += deviceProperties.limits.maxImageDimension2D;
 
+	QueueFamilyIndices indices = findQueueFamilies(device);
+	if (!indices.isComplete())
+		score = 0;
+	else
+		score += indices.graphicsFamily.value();
+
 	// Application can't function without geometry shaders
 	if (!deviceFeatures.geometryShader)
 		score = 0;
 
 	return score;
+}
+
+VrausPercival::QueueFamilyIndices VrausPercival::Device::findQueueFamilies(VkPhysicalDevice device)
+{
+	QueueFamilyIndices indices;
+
+	uint32_t queueFamilyCount = 0;
+	vkGetPhysicalDeviceQueueFamilyProperties(device, &queueFamilyCount, nullptr);
+
+	std::vector<VkQueueFamilyProperties> queueFamilies(queueFamilyCount);
+	vkGetPhysicalDeviceQueueFamilyProperties(device, &queueFamilyCount, queueFamilies.data());
+
+	int i = 0;
+	for (const auto& queueFamily : queueFamilies) {
+		if (indices.isComplete())
+			break;
+
+		if (queueFamily.queueFlags & VK_QUEUE_GRAPHICS_BIT) {
+			indices.graphicsFamily = i;
+		}
+
+		i++;
+	}
+
+	return indices;
 }
 
 VKAPI_ATTR VkBool32 VKAPI_CALL VrausPercival::Device::debugcallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity, VkDebugUtilsMessageTypeFlagsEXT messageType, const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData, void* pUserData)
