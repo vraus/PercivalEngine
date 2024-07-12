@@ -62,6 +62,7 @@ namespace VrausPercival {
 	private:
 		void createInstance();
 		void pickPhysicalDevice();
+		void createLogicalDevice();
 		void cleanup() const;
 
 		// Debugs
@@ -88,6 +89,9 @@ namespace VrausPercival {
 		Window* window;
 
 		VkPhysicalDevice physicalDevice = VK_NULL_HANDLE; // The GPU of the computer
+		VkDevice device; // Logical device to describe features and queue families
+
+		VkQueue graphicsQueue;
 
 		const std::vector<const char*> validationLayers = { "VK_LAYER_KHRONOS_validation" };
 	};
