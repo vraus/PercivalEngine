@@ -4,6 +4,7 @@ VrausPercival::Device::Device(Window& window) : window{&window}
 {
 	createInstance();
 	setupDebugMessenger();
+	cleanup();
 }
 
 void VrausPercival::Device::createInstance()
@@ -56,6 +57,37 @@ void VrausPercival::Device::createInstance()
 		throw std::runtime_error("Failed to create instance!");
 }
 
+void VrausPercival::Device::pickPhysicalDevice()
+{
+	uint32_t deviceCount = 0;
+	vkEnumeratePhysicalDevices(instance, &deviceCount, nullptr);
+
+	if (deviceCount == 0)
+		throw std::runtime_error("Failed to find GPUs with Vulkan support!");
+
+	std::vector<VkPhysicalDevice> devices(deviceCount);
+	vkEnumeratePhysicalDevices(instance, &deviceCount, devices.data());
+
+	// Store GPU suitability score
+	std::multimap<int, VkPhysicalDevice> candidates;
+
+	for(const auto & device : devices) {
+		int score = rateDeviceSuitability(device);
+		candidates.insert(std::make_pair(score, device)); // Rate candidates
+	}
+
+	// Check if the best candidate is suitable at all
+	if (candidates.rbegin()->first > 0) { // If score is > 0
+		physicalDevice = candidates.rbegin()->second; // Collect candidate
+	}
+	else {
+		throw std::runtime_error("Failed to find a suitable GPU!");
+	}
+
+	if (physicalDevice == VK_NULL_HANDLE)
+		throw std::runtime_error("Failed to find a suitable GPU!");
+}
+
 void VrausPercival::Device::cleanup() const
 {
 	if (enableValidationLayers) {
@@ -85,11 +117,9 @@ void VrausPercival::Device::populateDebugMessengerCreateInfo(VkDebugUtilsMesseng
 {
 	createInfo = {};
 	createInfo.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
-	createInfo.messageSeverity = VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT
-		| VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT
+	createInfo.messageSeverity = VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT
 		| VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT;
-	createInfo.messageType = VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT
-		| VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT
+	createInfo.messageType = VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT
 		| VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT;
 	createInfo.pfnUserCallback = debugcallback;
 }
@@ -119,7 +149,7 @@ bool VrausPercival::Device::checkValidationLayerSupport()
 	return true;
 }
 
-std::vector<const char*> VrausPercival::Device::getRequiredExtensions()
+std::vector<const char*> VrausPercival::Device::getRequiredExtensions() const
 {
 	uint32_t glfwExtensionCount = 0;
 	const char** glfwExtensions;
@@ -132,6 +162,31 @@ std::vector<const char*> VrausPercival::Device::getRequiredExtensions()
 	}
 
 	return extensions;
+}
+
+int VrausPercival::Device::rateDeviceSuitability(VkPhysicalDevice device)
+{
+	VkPhysicalDeviceProperties deviceProperties;
+	VkPhysicalDeviceFeatures deviceFeatures;
+
+	vkGetPhysicalDeviceProperties(device, &deviceProperties);
+	vkGetPhysicalDeviceFeatures(device, &deviceFeatures);
+
+	int score = 0;
+
+	// Discrete GPUs have a significant performance advantage
+	if (deviceProperties.deviceType == VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU) {
+		score += 100;
+	}
+
+	// Maximum possible size of textures affects graphics quality
+	score += deviceProperties.limits.maxImageDimension2D;
+
+	// Application can't function without geometry shaders
+	if (!deviceFeatures.geometryShader)
+		score = 0;
+
+	return score;
 }
 
 VKAPI_ATTR VkBool32 VKAPI_CALL VrausPercival::Device::debugcallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity, VkDebugUtilsMessageTypeFlagsEXT messageType, const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData, void* pUserData)

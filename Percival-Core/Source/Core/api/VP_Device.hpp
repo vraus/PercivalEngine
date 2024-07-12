@@ -6,6 +6,7 @@
 #include <vector>
 #include <iostream>
 #include <cstring>
+#include <map>
 
 static VkResult CreateDebugUtilsMessengerEXT(
 	VkInstance instance,
@@ -49,6 +50,7 @@ namespace VrausPercival {
 
 	private:
 		void createInstance();
+		void pickPhysicalDevice();
 		void cleanup() const;
 
 		// Debugs
@@ -57,7 +59,8 @@ namespace VrausPercival {
 
 		// Helpers
 		bool checkValidationLayerSupport();
-		std::vector<const char*> getRequiredExtensions();
+		std::vector<const char*> getRequiredExtensions() const;
+		int rateDeviceSuitability(VkPhysicalDevice device);
 
 		// Callbak for the validation layer
 		static VKAPI_ATTR VkBool32 VKAPI_CALL debugcallback(
@@ -67,10 +70,12 @@ namespace VrausPercival {
 			void* pUserData
 		);
 
-		VkInstance instance;
+		VkInstance instance; // Instance of Vulkan library
 		VkDebugUtilsMessengerEXT debugMessenger;
 
 		Window* window;
+
+		VkPhysicalDevice physicalDevice = VK_NULL_HANDLE; // The GPU of the computer
 
 		const std::vector<const char*> validationLayers = { "VK_LAYER_KHRONOS_validation" };
 	};
