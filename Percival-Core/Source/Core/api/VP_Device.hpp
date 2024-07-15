@@ -17,6 +17,7 @@
 #include <cstring>
 #include <map>
 #include <optional>
+#include <set>
 
 namespace VrausPercival {
 
@@ -44,11 +45,10 @@ namespace VrausPercival {
 
 	struct QueueFamilyIndices {
 		std::optional<uint32_t> graphicsFamily;
-		// std::optional<uint32_t> presentFamily;
+		std::optional<uint32_t> presentFamily;
 
 		bool isComplete() {
-			return graphicsFamily.has_value();
-			// return graphicsFamily.has_value() && presentFamily.has_value();
+			 return graphicsFamily.has_value() && presentFamily.has_value();
 		}
 	};
 
@@ -73,6 +73,7 @@ namespace VrausPercival {
 		void createSurface();
 		void pickPhysicalDevice();
 		void createLogicalDevice();
+		void mainLoop();
 		void cleanup() const;
 
 		// Debugs
@@ -103,6 +104,7 @@ namespace VrausPercival {
 		VkDevice device; // Logical device to describe features and queue families
 
 		VkQueue graphicsQueue;
+		VkQueue presentQueue;
 
 		const std::vector<const char*> validationLayers = { "VK_LAYER_KHRONOS_validation" };
 	};
