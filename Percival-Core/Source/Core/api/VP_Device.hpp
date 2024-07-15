@@ -1,7 +1,16 @@
 #pragma once
 
+// Vulkan
+#define VK_USE_PLATFORM_WIN32_KHR
+#define GLFW_INCLUDE_VULKAN
+#include <GLFW/glfw3.h>
+#define GLFW_EXPOE_NATIVE_WIN32
+#include <GLFW/glfw3native.h>
+
+// VP
 #include "VP_Window.hpp"
 
+// std
 #include <stdexcept>
 #include <vector>
 #include <iostream>
@@ -33,13 +42,13 @@ namespace VrausPercival {
 		}
 	}
 
-
-
 	struct QueueFamilyIndices {
 		std::optional<uint32_t> graphicsFamily;
+		// std::optional<uint32_t> presentFamily;
 
 		bool isComplete() {
 			return graphicsFamily.has_value();
+			// return graphicsFamily.has_value() && presentFamily.has_value();
 		}
 	};
 
@@ -51,7 +60,7 @@ namespace VrausPercival {
 #else 
 		const bool enableValidationLayers = true;
 #endif
-		Device(Window& window);
+		Device();
 		~Device() {}
 
 		Device(const Device& device) = delete;
@@ -61,6 +70,7 @@ namespace VrausPercival {
 
 	private:
 		void createInstance();
+		void createSurface();
 		void pickPhysicalDevice();
 		void createLogicalDevice();
 		void cleanup() const;
@@ -86,7 +96,8 @@ namespace VrausPercival {
 		VkInstance instance; // Instance of Vulkan library
 		VkDebugUtilsMessengerEXT debugMessenger;
 
-		Window* window;
+		GLFWwindow* window;
+		VkSurfaceKHR surface;
 
 		VkPhysicalDevice physicalDevice = VK_NULL_HANDLE; // The GPU of the computer
 		VkDevice device; // Logical device to describe features and queue families

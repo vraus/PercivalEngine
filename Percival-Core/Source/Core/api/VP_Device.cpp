@@ -1,12 +1,12 @@
 #include "VP_Device.hpp"
 
-VrausPercival::Device::Device(Window& window) : window{&window}
+VrausPercival::Device::Device()
 {
 	createInstance();
 	setupDebugMessenger();
 	pickPhysicalDevice();
 	createLogicalDevice();
-	cleanup();
+	// cleanup();
 }
 
 void VrausPercival::Device::createInstance()
@@ -57,6 +57,12 @@ void VrausPercival::Device::createInstance()
 
 	if (vkCreateInstance(&createInfo, nullptr, &instance) != VK_SUCCESS)
 		throw std::runtime_error("Failed to create instance!");
+}
+
+void VrausPercival::Device::createSurface()
+{
+	if (glfwCreateWindowSurface(instance, window, nullptr, &surface) != VK_SUCCESS)
+		throw std::runtime_error("Failed to create window surface!");
 }
 
 void VrausPercival::Device::pickPhysicalDevice()
@@ -134,6 +140,7 @@ void VrausPercival::Device::cleanup() const
 	}
 
 	vkDestroyDevice(device, nullptr);
+	vkDestroySurfaceKHR(instance, surface, nullptr);
 	vkDestroyInstance(instance, nullptr);
 
 	// glfwDestroyWindow(window);
