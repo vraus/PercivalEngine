@@ -5,6 +5,7 @@
 
 #include <iostream>
 #include <stdexcept>
+#include <memory>
 #include <vector>
 
 namespace VrausPercival {
@@ -14,19 +15,19 @@ namespace VrausPercival {
 		static constexpr int WIDTH = 800;
 		static constexpr int HEIGHT = 600;
 
-		Engine() {}
+		Engine();
 		~Engine() {}
 
 		Engine(const Engine&) = delete;
 		Engine& operator=(const Engine&) = delete;
 
-		void run() {}
+		void run();
 
 	private:
 		void initEngine() {}
 		void cleanup() {}
 
-		Window window{};
-		Device device{};
+		Window window{ WIDTH, HEIGHT, "Percival Engine" };
+		Device device{ window };
 	};
 }

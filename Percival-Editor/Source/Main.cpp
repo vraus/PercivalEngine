@@ -4,7 +4,7 @@
 #include <cstdlib>
 
 int main() {
-	VrausPercival::Engine engine;
+	VrausPercival::Engine engine{};
 
 	try {
 		engine.run(); // The editor runs the Core Engine
@@ -14,5 +14,6 @@ int main() {
 		std::cerr << e.what() << std::endl;
 		return EXIT_FAILURE;
 	}
+
 	return EXIT_SUCCESS;
 }

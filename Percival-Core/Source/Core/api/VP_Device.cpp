@@ -1,13 +1,14 @@
 #include "VP_Device.hpp"
 
-VrausPercival::Device::Device()
+VrausPercival::Device::Device(Window& window) : window {window}
 {
 	createInstance();
 	setupDebugMessenger();
 	createSurface();
 	pickPhysicalDevice();
 	createLogicalDevice();
-	cleanup();
+	mainLoop();
+	// cleanup();
 }
 
 void VrausPercival::Device::createInstance()
@@ -19,9 +20,9 @@ void VrausPercival::Device::createInstance()
 	VkApplicationInfo appInfo{};
 	appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
 	appInfo.pApplicationName = "Percival Editor";
-	appInfo.applicationVersion = VK_MAKE_API_VERSION(0, 1, 0, 0);
+	appInfo.applicationVersion = VK_MAKE_VERSION(1, 0, 0);
 	appInfo.pEngineName = "Percival Engine";
-	appInfo.engineVersion = VK_MAKE_API_VERSION(0, 1, 0, 0);
+	appInfo.engineVersion = VK_MAKE_VERSION(1, 0, 0);
 	appInfo.apiVersion = VK_API_VERSION_1_0;
 
 	// Counting extentions for the next struct
@@ -62,8 +63,7 @@ void VrausPercival::Device::createInstance()
 
 void VrausPercival::Device::createSurface()
 {
-	if (glfwCreateWindowSurface(instance, window, nullptr, &surface) != VK_SUCCESS)
-		throw std::runtime_error("Failed to create window surface!");
+	window.createWindowSurface(instance, &surface);
 }
 
 void VrausPercival::Device::pickPhysicalDevice()
@@ -108,7 +108,7 @@ void VrausPercival::Device::createLogicalDevice()
 		indices.presentFamily.value()
 	};
 
-	float queuePriority = 1.f;
+	float queuePriority = 1.0f;
 	for (uint32_t queueFamily : uniqueQueueFamilies) {
 		VkDeviceQueueCreateInfo queueCreateInfo{};
 		queueCreateInfo.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
@@ -124,10 +124,14 @@ void VrausPercival::Device::createLogicalDevice()
 	// Creating the logical device
 	VkDeviceCreateInfo createInfo{};
 	createInfo.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
-	createInfo.pQueueCreateInfos = queueCreateInfos.data();
 	createInfo.queueCreateInfoCount = static_cast<uint32_t>(queueCreateInfos.size());
+	createInfo.pQueueCreateInfos = queueCreateInfos.data();
 	createInfo.pEnabledFeatures = &deviceFeatures;
-	createInfo.enabledExtensionCount = 0;
+
+	std::vector<const char*> deviceExtensions = { VK_KHR_SWAPCHAIN_EXTENSION_NAME, VK_KHR_SURFACE_EXTENSION_NAME };
+	createInfo.enabledExtensionCount = static_cast<uint32_t>(deviceExtensions.size());
+	createInfo.ppEnabledExtensionNames = deviceExtensions.data();
+
 	if (enableValidationLayers) {
 		createInfo.enabledLayerCount = static_cast<uint32_t>(validationLayers.size());
 		createInfo.ppEnabledLayerNames = validationLayers.data();
@@ -140,12 +144,13 @@ void VrausPercival::Device::createLogicalDevice()
 	if (vkCreateDevice(physicalDevice, &createInfo, nullptr, &device) != VK_SUCCESS)
 		throw std::runtime_error("Failed to create logical device!");
 
-	vkGetDeviceQueue(device, indices.graphicsFamily.value(), 0, &presentQueue);
+	vkGetDeviceQueue(device, indices.presentFamily.value(), 0, &presentQueue);
+	vkGetDeviceQueue(device, indices.graphicsFamily.value(), 0, &graphicsQueue);
 }
 
 void VrausPercival::Device::mainLoop()
 {
-	while (!glfwWindowShouldClose(window)) {
+	while (!window.shouldClose()) {
 		glfwPollEvents();
 	}
 }
@@ -161,7 +166,7 @@ void VrausPercival::Device::cleanup() const
 	vkDestroySurfaceKHR(instance, surface, nullptr);
 	vkDestroyInstance(instance, nullptr);
 
-	glfwDestroyWindow(window);
+	// glfwDestroyWindow(window);
 	glfwTerminate();
 }
 
@@ -272,19 +277,20 @@ VrausPercival::QueueFamilyIndices VrausPercival::Device::findQueueFamilies(VkPhy
 	int i = 0;
 	for (const auto& queueFamily : queueFamilies) {
 		
-		if (queueFamily.queueFlags & VK_QUEUE_GRAPHICS_BIT) {
+		if (queueFamily.queueCount > 0 && queueFamily.queueFlags & VK_QUEUE_GRAPHICS_BIT) {
 			indices.graphicsFamily = i;
 		}
 
 		VkBool32 presentSupport = false;
 		vkGetPhysicalDeviceSurfaceSupportKHR(device, i, surface, &presentSupport);
 		
-		if (presentSupport) {
+		if (queueFamily.queueCount > 0 && presentSupport) {
 			indices.presentFamily = i;
 		}
 		
-		if (indices.isComplete())
+		if (indices.isComplete()) {
 			break;
+		}
 
 		i++;
 	}

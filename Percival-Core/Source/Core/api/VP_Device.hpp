@@ -60,7 +60,7 @@ namespace VrausPercival {
 #else 
 		const bool enableValidationLayers = true;
 #endif
-		Device();
+		Device(Window& window);
 		~Device() {}
 
 		Device(const Device& device) = delete;
@@ -97,7 +97,7 @@ namespace VrausPercival {
 		VkInstance instance; // Instance of Vulkan library
 		VkDebugUtilsMessengerEXT debugMessenger;
 
-		GLFWwindow* window;
+		Window& window;
 		VkSurfaceKHR surface;
 
 		VkPhysicalDevice physicalDevice = VK_NULL_HANDLE; // The GPU of the computer

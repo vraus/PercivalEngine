@@ -3,17 +3,27 @@
 #define GLFW_INCLUDE_VULKAN
 #include <GLFW/glfw3.h>
 
+// std
+#include <stdexcept>
+
 namespace VrausPercival {
 
 	class Window
 	{
 	public:
-		Window() {}
+		Window(int width, int height, const char* windowName);
 		~Window() {}
 
 		Window(const Window& window) = delete;
 		Window& operator=(const Window& window) = delete;
 
+		bool shouldClose() { return glfwWindowShouldClose(window); }
+
+		void createWindowSurface(VkInstance instance, VkSurfaceKHR* surface);
+
+	private:
+
+		GLFWwindow* window;
 	};
 
 }
