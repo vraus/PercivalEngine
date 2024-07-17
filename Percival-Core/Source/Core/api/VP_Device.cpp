@@ -253,6 +253,7 @@ int VrausPercival::Device::rateDeviceSuitability(VkPhysicalDevice device)
 		score += 100;
 	}
 
+
 	// Maximum possible size of textures affects graphics quality
 	score += deviceProperties.limits.maxImageDimension2D;
 
@@ -262,11 +263,31 @@ int VrausPercival::Device::rateDeviceSuitability(VkPhysicalDevice device)
 	else
 		score += indices.graphicsFamily.value();
 
+	if (checkDeviceExtensionSupport(device)) score += 100;
+	else score = 0;
+
 	// Application can't function without geometry shaders
 	if (!deviceFeatures.geometryShader)
 		score = 0;
 
 	return score;
+}
+
+bool VrausPercival::Device::checkDeviceExtensionSupport(VkPhysicalDevice device)
+{
+	uint32_t extensionCount;
+	vkEnumerateDeviceExtensionProperties(device, nullptr, &extensionCount, nullptr);
+
+	std::vector<VkExtensionProperties> availableExtensions(extensionCount);
+	vkEnumerateDeviceExtensionProperties(device, nullptr, &extensionCount, availableExtensions.data());
+
+	std::set<std::string> requiredExtensions(deviceExtensions.begin(), deviceExtensions.end());
+
+	for (const auto& extension : availableExtensions) {
+		requiredExtensions.erase(extension.extensionName);
+	}
+
+	return requiredExtensions.empty();
 }
 
 VrausPercival::QueueFamilyIndices VrausPercival::Device::findQueueFamilies(VkPhysicalDevice device) const

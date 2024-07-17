@@ -84,6 +84,7 @@ namespace VrausPercival {
 		bool checkValidationLayerSupport();
 		std::vector<const char*> getRequiredExtensions() const;
 		int rateDeviceSuitability(VkPhysicalDevice device);
+		bool checkDeviceExtensionSupport(VkPhysicalDevice device);
 		QueueFamilyIndices findQueueFamilies(VkPhysicalDevice device) const;
 
 		// Callbak for the validation layer
