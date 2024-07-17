@@ -61,7 +61,7 @@ namespace VrausPercival {
 		const bool enableValidationLayers = true;
 #endif
 		Device(Window& window);
-		~Device() {}
+		~Device();
 
 		Device(const Device& device) = delete;
 		Device& operator=(const Device&) = delete;
@@ -84,7 +84,7 @@ namespace VrausPercival {
 		bool checkValidationLayerSupport();
 		std::vector<const char*> getRequiredExtensions() const;
 		int rateDeviceSuitability(VkPhysicalDevice device);
-		QueueFamilyIndices findQueueFamilies(VkPhysicalDevice device);
+		QueueFamilyIndices findQueueFamilies(VkPhysicalDevice device) const;
 
 		// Callbak for the validation layer
 		static VKAPI_ATTR VkBool32 VKAPI_CALL debugcallback(
@@ -107,6 +107,7 @@ namespace VrausPercival {
 		VkQueue presentQueue;
 
 		const std::vector<const char*> validationLayers = { "VK_LAYER_KHRONOS_validation" };
+		const std::vector<const char*> deviceExtensions = { VK_KHR_SWAPCHAIN_EXTENSION_NAME };
 	};
 
 }

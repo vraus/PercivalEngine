@@ -8,7 +8,12 @@ VrausPercival::Device::Device(Window& window) : window {window}
 	pickPhysicalDevice();
 	createLogicalDevice();
 	mainLoop();
-	// cleanup();
+	cleanup();
+}
+
+VrausPercival::Device::~Device()
+{
+	cleanup();
 }
 
 void VrausPercival::Device::createInstance()
@@ -128,7 +133,6 @@ void VrausPercival::Device::createLogicalDevice()
 	createInfo.pQueueCreateInfos = queueCreateInfos.data();
 	createInfo.pEnabledFeatures = &deviceFeatures;
 
-	std::vector<const char*> deviceExtensions = { VK_KHR_SWAPCHAIN_EXTENSION_NAME, VK_KHR_SURFACE_EXTENSION_NAME };
 	createInfo.enabledExtensionCount = static_cast<uint32_t>(deviceExtensions.size());
 	createInfo.ppEnabledExtensionNames = deviceExtensions.data();
 
@@ -141,11 +145,12 @@ void VrausPercival::Device::createLogicalDevice()
 	}
 
 	// Create and check the device creation
-	if (vkCreateDevice(physicalDevice, &createInfo, nullptr, &device) != VK_SUCCESS)
+	if (vkCreateDevice(physicalDevice, &createInfo, nullptr, &device) != VK_SUCCESS) {
 		throw std::runtime_error("Failed to create logical device!");
+	}
 
-	vkGetDeviceQueue(device, indices.presentFamily.value(), 0, &presentQueue);
 	vkGetDeviceQueue(device, indices.graphicsFamily.value(), 0, &graphicsQueue);
+	vkGetDeviceQueue(device, indices.presentFamily.value(), 0, &presentQueue);
 }
 
 void VrausPercival::Device::mainLoop()
@@ -264,7 +269,7 @@ int VrausPercival::Device::rateDeviceSuitability(VkPhysicalDevice device)
 	return score;
 }
 
-VrausPercival::QueueFamilyIndices VrausPercival::Device::findQueueFamilies(VkPhysicalDevice device)
+VrausPercival::QueueFamilyIndices VrausPercival::Device::findQueueFamilies(VkPhysicalDevice device) const
 {
 	QueueFamilyIndices indices;
 

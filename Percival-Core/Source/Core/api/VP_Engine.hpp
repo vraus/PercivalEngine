@@ -15,7 +15,7 @@ namespace VrausPercival {
 		static constexpr int WIDTH = 800;
 		static constexpr int HEIGHT = 600;
 
-		Engine();
+		Engine() {}
 		~Engine() {}
 
 		Engine(const Engine&) = delete;
@@ -24,8 +24,6 @@ namespace VrausPercival {
 		void run();
 
 	private:
-		void initEngine() {}
-		void cleanup() {}
 
 		Window window{ WIDTH, HEIGHT, "Percival Engine" };
 		Device device{ window };

@@ -11,7 +11,7 @@ namespace VrausPercival {
 	class Window
 	{
 	public:
-		Window(int width, int height, const char* windowName);
+		Window(int width, int height, std::string windowName);
 		~Window() {}
 
 		Window(const Window& window) = delete;
@@ -22,6 +22,11 @@ namespace VrausPercival {
 		void createWindowSurface(VkInstance instance, VkSurfaceKHR* surface);
 
 	private:
+		void initwindow();
+
+		int width;
+		int height;
+		std::string windowName;
 
 		GLFWwindow* window;
 	};
