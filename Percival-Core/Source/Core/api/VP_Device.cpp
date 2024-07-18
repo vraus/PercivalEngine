@@ -253,22 +253,30 @@ int VrausPercival::Device::rateDeviceSuitability(VkPhysicalDevice device)
 		score += 100;
 	}
 
-
 	// Maximum possible size of textures affects graphics quality
 	score += deviceProperties.limits.maxImageDimension2D;
 
 	QueueFamilyIndices indices = findQueueFamilies(device);
 	if (!indices.isComplete())
-		score = 0;
+		return 0;
 	else
 		score += indices.graphicsFamily.value();
 
-	if (checkDeviceExtensionSupport(device)) score += 100;
-	else score = 0;
+	if (checkDeviceExtensionSupport(device)) {
+		// Only check for swapchain support if extension is available
+		bool swapChainAdequate = false;
+		SwapChainSupportDetails swapChainSupport = querySwapChainSupport(device);
+		swapChainAdequate = !swapChainSupport.formats.empty() && !swapChainSupport.presentModes.empty();
+
+		score = (swapChainAdequate) ? (score + 100) : 0;
+	}
+	else return 0;
+
+
 
 	// Application can't function without geometry shaders
 	if (!deviceFeatures.geometryShader)
-		score = 0;
+		return 0;
 
 	return score;
 }
@@ -322,6 +330,38 @@ VrausPercival::QueueFamilyIndices VrausPercival::Device::findQueueFamilies(VkPhy
 	}
 
 	return indices;
+}
+
+VrausPercival::SwapChainSupportDetails VrausPercival::Device::querySwapChainSupport(VkPhysicalDevice device)
+{
+	SwapChainSupportDetails details;
+
+	// Basic Surface Capabilities
+	vkGetPhysicalDeviceSurfaceCapabilitiesKHR(device, surface, &details.capabilites);
+	
+	// Querying for suppported surface formats
+	uint32_t formatCount;
+	vkGetPhysicalDeviceSurfaceFormatsKHR(device, surface, &formatCount, nullptr);
+	if (formatCount != 0) {
+		details.formats.resize(formatCount);
+		vkGetPhysicalDeviceSurfaceFormatsKHR(device, surface, &formatCount, details.formats.data());
+	}
+
+	// Querying for supported presentation modes
+	uint32_t presentModeCount;
+	vkGetPhysicalDeviceSurfacePresentModesKHR(device, surface, &presentModeCount, nullptr);
+	if (presentModeCount != 0) {
+		details.presentModes.resize(presentModeCount);
+		vkGetPhysicalDeviceSurfacePresentModesKHR(device, surface, &presentModeCount, details.presentModes.data());
+	}
+
+	return details;
+}
+
+VkSurfaceFormatKHR VrausPercival::Device::chooseSwapSurfaceFormat(const std::vector<VkSurfaceKHR>& availableFormats)
+{
+
+	return VkSurfaceFormatKHR();
 }
 
 VKAPI_ATTR VkBool32 VKAPI_CALL VrausPercival::Device::debugcallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity, VkDebugUtilsMessageTypeFlagsEXT messageType, const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData, void* pUserData)

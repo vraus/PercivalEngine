@@ -52,6 +52,12 @@ namespace VrausPercival {
 		}
 	};
 
+	struct SwapChainSupportDetails {
+		VkSurfaceCapabilitiesKHR capabilites;
+		std::vector<VkSurfaceFormatKHR> formats;
+		std::vector<VkPresentModeKHR> presentModes;
+	};
+
 	class Device
 	{
 	public:
@@ -86,6 +92,8 @@ namespace VrausPercival {
 		int rateDeviceSuitability(VkPhysicalDevice device);
 		bool checkDeviceExtensionSupport(VkPhysicalDevice device);
 		QueueFamilyIndices findQueueFamilies(VkPhysicalDevice device) const;
+		SwapChainSupportDetails querySwapChainSupport(VkPhysicalDevice device);
+		VkSurfaceFormatKHR chooseSwapSurfaceFormat(const std::vector<VkSurfaceKHR>& availableFormats);
 
 		// Callbak for the validation layer
 		static VKAPI_ATTR VkBool32 VKAPI_CALL debugcallback(
