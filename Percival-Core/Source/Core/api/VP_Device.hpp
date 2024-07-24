@@ -18,6 +18,9 @@
 #include <map>
 #include <optional>
 #include <set>
+#include <limits>
+#include <cstdint>
+#include <algorithm>
 
 namespace VrausPercival {
 
@@ -97,6 +100,7 @@ namespace VrausPercival {
 		int rateDeviceSuitability(VkPhysicalDevice device);
 		VkSurfaceFormatKHR chooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats);
 		VkPresentModeKHR chooseSwapPresentMode(const std::vector<VkPresentModeKHR>& availablePresentModes);
+		VkExtent2D chooseSwapExtent(const VkSurfaceCapabilitiesKHR capabilities); // Extent = Resolution of the swap chain image
 
 		// Callbak for the validation layer
 		static VKAPI_ATTR VkBool32 VKAPI_CALL debugcallback(

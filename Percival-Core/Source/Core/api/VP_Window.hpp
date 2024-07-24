@@ -5,6 +5,9 @@
 
 // std
 #include <stdexcept>
+#include <cstdint>
+#include <algorithm>
+#include <limits>
 
 namespace VrausPercival {
 
@@ -20,6 +23,7 @@ namespace VrausPercival {
 		bool shouldClose() { return glfwWindowShouldClose(window); }
 
 		void createWindowSurface(VkInstance instance, VkSurfaceKHR* surface);
+		VkExtent2D chooseSwapExtent(const VkSurfaceCapabilitiesKHR capabilities);
 
 	private:
 		void initwindow();

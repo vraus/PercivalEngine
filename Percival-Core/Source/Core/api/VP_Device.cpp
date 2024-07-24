@@ -377,6 +377,11 @@ VkPresentModeKHR VrausPercival::Device::chooseSwapPresentMode(const std::vector<
 	return VK_PRESENT_MODE_FIFO_KHR;
 }
 
+VkExtent2D VrausPercival::Device::chooseSwapExtent(const VkSurfaceCapabilitiesKHR capabilities)
+{
+	window.chooseSwapExtent(capabilities);
+}
+
 VKAPI_ATTR VkBool32 VKAPI_CALL VrausPercival::Device::debugcallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity, VkDebugUtilsMessageTypeFlagsEXT messageType, const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData, void* pUserData)
 {
 	std::cerr << "Validation  layer: " << pCallbackData->pMessage << std::endl;
