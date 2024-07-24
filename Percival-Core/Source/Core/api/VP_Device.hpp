@@ -89,11 +89,14 @@ namespace VrausPercival {
 		// Helpers
 		bool checkValidationLayerSupport();
 		std::vector<const char*> getRequiredExtensions() const;
-		int rateDeviceSuitability(VkPhysicalDevice device);
 		bool checkDeviceExtensionSupport(VkPhysicalDevice device);
 		QueueFamilyIndices findQueueFamilies(VkPhysicalDevice device) const;
 		SwapChainSupportDetails querySwapChainSupport(VkPhysicalDevice device);
-		VkSurfaceFormatKHR chooseSwapSurfaceFormat(const std::vector<VkSurfaceKHR>& availableFormats);
+		
+		// Choosers
+		int rateDeviceSuitability(VkPhysicalDevice device);
+		VkSurfaceFormatKHR chooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats);
+		VkPresentModeKHR chooseSwapPresentMode(const std::vector<VkPresentModeKHR>& availablePresentModes);
 
 		// Callbak for the validation layer
 		static VKAPI_ATTR VkBool32 VKAPI_CALL debugcallback(
