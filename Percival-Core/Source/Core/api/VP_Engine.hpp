@@ -2,6 +2,7 @@
 
 #include "VP_Window.hpp"
 #include "VP_Device.hpp"
+#include "VP_SwapChain.hpp"
 
 #include <iostream>
 #include <stdexcept>

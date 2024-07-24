@@ -56,7 +56,7 @@ namespace VrausPercival {
 	};
 
 	struct SwapChainSupportDetails {
-		VkSurfaceCapabilitiesKHR capabilites;
+		VkSurfaceCapabilitiesKHR capabilities;
 		std::vector<VkSurfaceFormatKHR> formats;
 		std::vector<VkPresentModeKHR> presentModes;
 	};
@@ -82,6 +82,7 @@ namespace VrausPercival {
 		void createSurface();
 		void pickPhysicalDevice();
 		void createLogicalDevice();
+		void createSwapChain();
 		void mainLoop();
 		void cleanup() const;
 
