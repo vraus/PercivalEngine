@@ -117,6 +117,11 @@ namespace VrausPercival {
 		Window& window;
 		VkSurfaceKHR surface;
 
+		VkSwapchainKHR swapChain;
+		std::vector<VkImage> swapchainImages;
+		VkFormat swapChainImageFormat;
+		VkExtent2D swapChainExtent;
+
 		VkPhysicalDevice physicalDevice = VK_NULL_HANDLE; // The GPU of the computer
 		VkDevice device; // Logical device to describe features and queue families
 

@@ -191,6 +191,24 @@ void VrausPercival::Device::createSwapChain()
 		createInfo.queueFamilyIndexCount = 0; // optional
 		createInfo.pQueueFamilyIndices = nullptr; // optional
 	}
+
+	createInfo.preTransform = swapChainSupport.capabilities.currentTransform;
+	createInfo.compositeAlpha = VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR;
+	createInfo.presentMode = presentMode;
+	createInfo.clipped = VK_TRUE;
+	createInfo.oldSwapchain = VK_NULL_HANDLE;
+
+	if (vkCreateSwapchainKHR(device, &createInfo, nullptr, &swapChain) != VK_SUCCESS) {
+		throw std::runtime_error("Failed to create Swapchain!");
+	}
+
+	// Retrieve the handle for the swapchain images
+	vkGetSwapchainImagesKHR(device, swapChain, &imageCount, nullptr);
+	swapchainImages.resize(imageCount);
+	vkGetSwapchainImagesKHR(device, swapChain, &imageCount, swapchainImages.data());
+
+	swapChainImageFormat = surfaceFormat.format;
+	swapChainExtent = extent;
 }
 
 void VrausPercival::Device::mainLoop()
@@ -202,6 +220,7 @@ void VrausPercival::Device::mainLoop()
 
 void VrausPercival::Device::cleanup() const
 {
+	vkDestroySwapchainKHR(device, swapChain, nullptr);
 	vkDestroyDevice(device, nullptr);
 
 	if (enableValidationLayers) {
@@ -419,7 +438,7 @@ VkPresentModeKHR VrausPercival::Device::chooseSwapPresentMode(const std::vector<
 
 VkExtent2D VrausPercival::Device::chooseSwapExtent(const VkSurfaceCapabilitiesKHR capabilities)
 {
-	window.chooseSwapExtent(capabilities);
+	return window.chooseSwapExtent(capabilities);
 }
 
 VKAPI_ATTR VkBool32 VKAPI_CALL VrausPercival::Device::debugcallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity, VkDebugUtilsMessageTypeFlagsEXT messageType, const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData, void* pUserData)
