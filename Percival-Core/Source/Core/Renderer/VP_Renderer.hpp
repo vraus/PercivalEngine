@@ -9,8 +9,11 @@ namespace VrausPercival {
 	class Renderer
 	{
 	public:
-		Renderer(Window& window, Device& device) : window{ window }, device{ device } {}
+		Renderer(Window& window, Device& device);
 		~Renderer() {}
+
+		Renderer(const Renderer&) = delete;
+		Renderer& operator=(const Renderer&) = delete;
 
 	private:
 		Window& window;

@@ -77,12 +77,17 @@ namespace VrausPercival {
 		Device(Device&&) = delete;
 		Device& operator=(Device&&) = delete;
 
+		// Accessors
+		SwapChainSupportDetails getSwapChainSupport() { return querySwapChainSupport(physicalDevice); }
+		QueueFamilyIndices findPhysicalQueueFamilies() { return findQueueFamilies(physicalDevice); }
+		VkDevice device() { return _device; }
+		VkSurfaceKHR surface() { return _surface; }
+
 	private:
 		void createInstance();
 		void createSurface();
 		void pickPhysicalDevice();
 		void createLogicalDevice();
-		void createSwapChain();
 		void mainLoop();
 		void cleanup() const;
 
@@ -115,7 +120,7 @@ namespace VrausPercival {
 		VkDebugUtilsMessengerEXT debugMessenger;
 
 		Window& window;
-		VkSurfaceKHR surface;
+		VkSurfaceKHR _surface;
 
 		VkSwapchainKHR swapChain;
 		std::vector<VkImage> swapchainImages;
@@ -123,7 +128,7 @@ namespace VrausPercival {
 		VkExtent2D swapChainExtent;
 
 		VkPhysicalDevice physicalDevice = VK_NULL_HANDLE; // The GPU of the computer
-		VkDevice device; // Logical device to describe features and queue families
+		VkDevice _device; // Logical device to describe features and queue families
 
 		VkQueue graphicsQueue;
 		VkQueue presentQueue;

@@ -2,7 +2,7 @@
 
 #include "VP_Window.hpp"
 #include "VP_Device.hpp"
-#include "VP_SwapChain.hpp"
+#include "../Renderer/VP_Renderer.hpp"
 
 #include <iostream>
 #include <stdexcept>
@@ -28,5 +28,6 @@ namespace VrausPercival {
 
 		Window window{ WIDTH, HEIGHT, "Percival Engine" };
 		Device device{ window };
+		Renderer renderer{ window, device };
 	};
 }
