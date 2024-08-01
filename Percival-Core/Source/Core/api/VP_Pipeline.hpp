@@ -10,9 +10,6 @@ namespace VrausPercival {
 
 		Pipeline(const Pipeline& pipeline) = delete;
 		Pipeline& operator=(const Pipeline& pipeline) = delete;
-
-	private:
-
 	};
 
 }

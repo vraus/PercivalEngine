@@ -88,6 +88,7 @@ namespace VrausPercival {
 		void createSurface();
 		void pickPhysicalDevice();
 		void createLogicalDevice();
+		void createGraphicsPipeline();
 		void mainLoop();
 		void cleanup() const;
 
