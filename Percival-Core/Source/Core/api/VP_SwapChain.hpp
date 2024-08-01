@@ -19,6 +19,8 @@ namespace VrausPercival {
 	private:
 		void init();
 		void createSwapChain();
+		void createImageViews();
+		void cleanup();
 
 		// Choosers
 		VkSurfaceFormatKHR chooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats);
@@ -29,9 +31,11 @@ namespace VrausPercival {
 		VkExtent2D windowExtent;
 
 		VkSwapchainKHR swapChain;
-		std::vector<VkImage> swapchainImages;
 		VkFormat swapChainImageFormat;
 		VkExtent2D swapChainExtent;
+
+		std::vector<VkImage> swapChainImages;
+		std::vector<VkImageView> swapChainImageViews;
 	};
 
 }

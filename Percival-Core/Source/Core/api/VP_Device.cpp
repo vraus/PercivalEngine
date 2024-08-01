@@ -359,30 +359,6 @@ VrausPercival::SwapChainSupportDetails VrausPercival::Device::querySwapChainSupp
 	return details;
 }
 
-VkSurfaceFormatKHR VrausPercival::Device::chooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats)
-{
-	for (const auto& availableFormat : availableFormats) {
-		if (availableFormat.format == VK_FORMAT_B8G8R8A8_SRGB && availableFormat.colorSpace == VK_COLORSPACE_SRGB_NONLINEAR_KHR)
-			return availableFormat;
-	}
-
-	return availableFormats[0]; // This function could be changed to have a ranking strategie on all formats
-}
-
-VkPresentModeKHR VrausPercival::Device::chooseSwapPresentMode(const std::vector<VkPresentModeKHR>& availablePresentModes)
-{
-	for (const auto& availablePresentMode : availablePresentModes) {
-		if (availablePresentMode == VK_PRESENT_MODE_MAILBOX_KHR)
-			return availablePresentMode;
-	}
-	return VK_PRESENT_MODE_FIFO_KHR;
-}
-
-VkExtent2D VrausPercival::Device::chooseSwapExtent(const VkSurfaceCapabilitiesKHR capabilities)
-{
-	return window.chooseSwapExtent(capabilities);
-}
-
 VKAPI_ATTR VkBool32 VKAPI_CALL VrausPercival::Device::debugcallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity, VkDebugUtilsMessageTypeFlagsEXT messageType, const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData, void* pUserData)
 {
 	std::cerr << "Validation  layer: " << pCallbackData->pMessage << std::endl;
