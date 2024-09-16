@@ -1,5 +1,9 @@
 #pragma once
 
+#include <vector>
+#include <iostream>
+#include <fstream>
+
 namespace VrausPercival {
 
 	class Pipeline
@@ -10,6 +14,12 @@ namespace VrausPercival {
 
 		Pipeline(const Pipeline& pipeline) = delete;
 		Pipeline& operator=(const Pipeline& pipeline) = delete;
+
+	private:
+		void createGraphicsPipeline();
+
+		// helper
+		static std::vector<char> readFile(const std::string& filename);
 	};
 
 }
