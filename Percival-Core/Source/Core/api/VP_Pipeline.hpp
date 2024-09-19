@@ -1,5 +1,7 @@
 #pragma once
 
+#include "VP_Device.hpp"
+
 #include <vector>
 #include <iostream>
 #include <fstream>
@@ -20,6 +22,7 @@ namespace VrausPercival {
 
 		// helper
 		static std::vector<char> readFile(const std::string& filename);
+		VkShaderModule createShaderModule(const std::vector<char>& code);
 	};
 
 }

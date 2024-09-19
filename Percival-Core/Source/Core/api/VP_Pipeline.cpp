@@ -3,7 +3,7 @@
 void VrausPercival::Pipeline::createGraphicsPipeline()
 {
 	auto vertShaderCode = readFile("../Shaders/simple_shader.vert.spv");
-	auto vertShaderCode = readFile("../Shaders/simple_shader.frag.spv");
+	auto fragShaderCode = readFile("../Shaders/simple_shader.frag.spv");
 }
 
 std::vector<char> VrausPercival::Pipeline::readFile(const std::string& filename)
@@ -22,4 +22,11 @@ std::vector<char> VrausPercival::Pipeline::readFile(const std::string& filename)
 	file.close();
 
 	return buffer;
+}
+
+VkShaderModule VrausPercival::Pipeline::createShaderModule(const std::vector<char>& code)
+{
+	VkShaderModuleCreateInfo createInfo{};
+	createInfo.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
+	return VkShaderModule();
 }
