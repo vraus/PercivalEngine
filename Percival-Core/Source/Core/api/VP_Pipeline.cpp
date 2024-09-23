@@ -1,9 +1,20 @@
 #include "VP_Pipeline.hpp"
 
-void VrausPercival::Pipeline::createGraphicsPipeline()
+VrausPercival::Pipeline::Pipeline(Device& device, const std::string& vertFilePath, const std::string& fragFilePath, const PipelineConfigInfo& configInfo) : device{device}
 {
-	auto vertShaderCode = readFile("../Shaders/simple_shader.vert.spv");
-	auto fragShaderCode = readFile("../Shaders/simple_shader.frag.spv");
+	createGraphicsPipeline(vertFilePath, fragFilePath);
+}
+
+void VrausPercival::Pipeline::createGraphicsPipeline(const std::string& vertFilePath, const std::string& fragFilePath)
+{
+	auto vertShaderCode = readFile(vertFilePath);
+	auto fragShaderCode = readFile(fragFilePath);
+
+	VkShaderModule vertShaderModule = createShaderModule(vertShaderCode);
+	VkShaderModule fragShaderModule = createShaderModule(fragShaderCode);
+
+	vkDestroyShaderModule(device.device(), fragShaderModule, nullptr);
+	vkDestroyShaderModule(device.device(), vertShaderModule, nullptr);
 }
 
 std::vector<char> VrausPercival::Pipeline::readFile(const std::string& filename)
@@ -28,5 +39,12 @@ VkShaderModule VrausPercival::Pipeline::createShaderModule(const std::vector<cha
 {
 	VkShaderModuleCreateInfo createInfo{};
 	createInfo.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
-	return VkShaderModule();
+	createInfo.codeSize = code.size();
+	createInfo.pCode = reinterpret_cast<const uint32_t*>(code.data());
+
+	VkShaderModule shaderModule;
+	if (vkCreateShaderModule(device.device(), &createInfo, nullptr, &shaderModule) != VK_SUCCESS)
+		throw std::runtime_error("Failed to create shader module!");
+
+	return shaderModule;
 }
