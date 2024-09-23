@@ -13,6 +13,21 @@ void VrausPercival::Pipeline::createGraphicsPipeline(const std::string& vertFile
 	VkShaderModule vertShaderModule = createShaderModule(vertShaderCode);
 	VkShaderModule fragShaderModule = createShaderModule(fragShaderCode);
 
+	// Size 2 array for Shader Stage Create Info
+	// Index 0 is for Vertex Shader Stages
+	// Index 1 is for Fragment Shader Stages
+	VkPipelineShaderStageCreateInfo shaderStagesInfo[2];
+	// Vertex shader stages info
+	shaderStagesInfo[0].sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
+	shaderStagesInfo[0].stage = VK_SHADER_STAGE_VERTEX_BIT; // Which pipeline stage the vertex will be used
+	shaderStagesInfo[0].module = vertShaderModule;
+	shaderStagesInfo[0].pName = "main"; // Function name, entrypoint, to the shader
+	// Fragment shader stages info
+	shaderStagesInfo[1].sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
+	shaderStagesInfo[1].stage = VK_SHADER_STAGE_FRAGMENT_BIT;
+	shaderStagesInfo[1].module = fragShaderModule;
+	shaderStagesInfo[1].pName = "main";
+
 	vkDestroyShaderModule(device.device(), fragShaderModule, nullptr);
 	vkDestroyShaderModule(device.device(), vertShaderModule, nullptr);
 }
