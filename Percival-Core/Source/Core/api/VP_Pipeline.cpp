@@ -5,6 +5,11 @@ VrausPercival::Pipeline::Pipeline(Device& device, const std::string& vertFilePat
 	createGraphicsPipeline(vertFilePath, fragFilePath);
 }
 
+void VrausPercival::Pipeline::defaultPipelineCongifInfo(PipelineConfigInfo& configInfo)
+{
+	// When using render system, use this function to create defaultPipelineConfigInfo
+}
+
 void VrausPercival::Pipeline::createGraphicsPipeline(const std::string& vertFilePath, const std::string& fragFilePath)
 {
 	auto vertShaderCode = readFile(vertFilePath);
@@ -126,10 +131,21 @@ void VrausPercival::Pipeline::createGraphicsPipeline(const std::string& vertFile
 	VkPipelineLayoutCreateInfo pipelineLayoutInfo{};
 	pipelineLayoutInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
 	pipelineLayoutInfo.setLayoutCount = 0; // Optional
+	pipelineLayoutInfo.pSetLayouts = nullptr; // Optional
+	pipelineLayoutInfo.pushConstantRangeCount = 0; // Optional
+	pipelineLayoutInfo.pPushConstantRanges = nullptr; // Optional
 
+	if (vkCreatePipelineLayout(device.device(),&pipelineLayoutInfo, nullptr, &pipelineLayout) != VK_SUCCESS) {
+		throw std::runtime_error("Failed to create Pipeline layout !");
+	}
 
 	vkDestroyShaderModule(device.device(), fragShaderModule, nullptr);
 	vkDestroyShaderModule(device.device(), vertShaderModule, nullptr);
+}
+
+void VrausPercival::Pipeline::cleanup()
+{
+	vkDestroyPipelineLayout(device.device(), pipelineLayout, nullptr);
 }
 
 std::vector<char> VrausPercival::Pipeline::readFile(const std::string& filename)

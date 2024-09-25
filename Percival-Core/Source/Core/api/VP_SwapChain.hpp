@@ -24,6 +24,7 @@ namespace VrausPercival {
 		void init();
 		void createSwapChain();
 		void createImageViews();
+		void createRenderPass();
 		void cleanup();
 
 		// Choosers
