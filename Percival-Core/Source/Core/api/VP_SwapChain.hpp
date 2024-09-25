@@ -16,6 +16,10 @@ namespace VrausPercival {
 		SwapChain(const SwapChain& swapChain) = delete;
 		SwapChain& operator=(const SwapChain& swapChain) = delete;
 
+		VkExtent2D getSwapChainExtent() { return swapChainExtent; }
+		uint32_t width() { return swapChainExtent.width; }
+		uint32_t height() { return swapChainExtent.height; }
+
 	private:
 		void init();
 		void createSwapChain();

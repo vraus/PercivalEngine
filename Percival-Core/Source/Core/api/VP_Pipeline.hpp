@@ -1,12 +1,14 @@
 #pragma once
 
 #include "VP_Device.hpp"
+#include "VP_SwapChain.hpp"
 
 #include <vector>
 #include <iostream>
 #include <fstream>
 
 namespace VrausPercival {
+
 	struct PipelineConfigInfo {};
 
 	class Pipeline
@@ -25,6 +27,7 @@ namespace VrausPercival {
 		void createGraphicsPipeline(const std::string& vertFilePath, const std::string& fragFilePath);
 
 		Device& device;
+		std::unique_ptr<SwapChain> swapChain;
 
 		// helper
 		static std::vector<char> readFile(const std::string& filename);
