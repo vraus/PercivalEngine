@@ -1,4 +1,5 @@
 #include "VP_SwapChain.hpp"
+#include <cassert>
 
 VrausPercival::SwapChain::SwapChain(Device& deviceRef, VkExtent2D windowExtent) : device{ device }, windowExtent{ windowExtent }
 {
@@ -17,6 +18,9 @@ void VrausPercival::SwapChain::init()
 {
 	createSwapChain();
 	createImageViews();
+	createRenderPass();
+	createGraphicsPipeline();
+	createFramebuffers();
 }
 
 void VrausPercival::SwapChain::createSwapChain()
@@ -138,11 +142,51 @@ void VrausPercival::SwapChain::createRenderPass()
 		throw std::runtime_error("Failed to create render pass !");
 }
 
+void VrausPercival::SwapChain::createFramebuffers()
+{
+	swapChainFramebuffers.resize(swapChainImageViews.size());
+
+	for (size_t i = 0; i < swapChainImageViews.size(); i++) {
+
+		VkImageView attachments[] = { swapChainImageViews[i] };
+
+		VkFramebufferCreateInfo framebufferInfo{};
+		framebufferInfo.sType = VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO;
+		framebufferInfo.renderPass = renderPass;    // framebuffer needs to be compatible with renderpass(es), meaning
+		framebufferInfo.attachmentCount = 1;        // same number
+		framebufferInfo.pAttachments = attachments; // and type of attachments
+		framebufferInfo.width = swapChainExtent.width;
+		framebufferInfo.height = swapChainExtent.height;
+		framebufferInfo.layers = 1;
+		
+		if (vkCreateFramebuffer(device.device(), &framebufferInfo, nullptr, &swapChainFramebuffers[i]) != VK_SUCCESS)
+			throw std::runtime_error("Failed to create frame buffer !");
+	}
+}
+
+void VrausPercival::SwapChain::createGraphicsPipeline()
+{
+	assert(pipelineLayout != nullptr && "Cannot create pipeline before pipeline layout");
+
+	PipelineConfigInfo pipelineConfig{};
+	Pipeline::defaultPipelineConfigInfo(pipelineConfig);
+	pipelineConfig.renderPass = renderPass; // Render pass describes the sctructure and format of our frame buffer object and their attachments
+	pipelineConfig.pipelineLayout = pipelineLayout;
+	pipeline = std::make_unique<Pipeline>(
+		device,
+		"simple_shader.vert.spv",
+		"simple_shader.frag.spv",
+		pipelineConfig);
+}
+
 void VrausPercival::SwapChain::cleanup()
 {
-	for (auto imageView : swapChainImageViews) {
+	for (auto framebuffer : swapChainFramebuffers)
+		vkDestroyFramebuffer(device.device(), framebuffer, nullptr);
+
+	for (auto imageView : swapChainImageViews)
 		vkDestroyImageView(device.device(), imageView, nullptr);
-	}
+
 	vkDestroyRenderPass(device.device(), renderPass, nullptr);
 }
 

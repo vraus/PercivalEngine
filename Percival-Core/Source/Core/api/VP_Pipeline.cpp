@@ -5,7 +5,7 @@ VrausPercival::Pipeline::Pipeline(Device& device, const std::string& vertFilePat
 	createGraphicsPipeline(vertFilePath, fragFilePath);
 }
 
-void VrausPercival::Pipeline::defaultPipelineCongifInfo(PipelineConfigInfo& configInfo)
+void VrausPercival::Pipeline::defaultPipelineConfigInfo(PipelineConfigInfo& configInfo)
 {
 	// When using render system, use this function to create defaultPipelineConfigInfo
 }
@@ -17,6 +17,8 @@ void VrausPercival::Pipeline::createGraphicsPipeline(const std::string& vertFile
 
 	VkShaderModule vertShaderModule = createShaderModule(vertShaderCode);
 	VkShaderModule fragShaderModule = createShaderModule(fragShaderCode);
+
+	std::cout << vertFilePath << "\n";
 
 	// Size 2 array for Shader Stage Create Info
 	// Index 0 is for Vertex Shader Stages

@@ -170,10 +170,6 @@ void VrausPercival::Device::createLogicalDevice()
 	vkGetDeviceQueue(_device, indices.presentFamily.value(), 0, &presentQueue);
 }
 
-void VrausPercival::Device::createGraphicsPipeline()
-{
-}
-
 void VrausPercival::Device::mainLoop()
 {
 	while (!window.shouldClose()) {

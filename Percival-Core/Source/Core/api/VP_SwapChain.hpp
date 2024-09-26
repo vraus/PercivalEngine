@@ -2,6 +2,7 @@
 
 #include "VP_Device.hpp"
 #include "VP_Window.hpp"
+#include "VP_Pipeline.hpp"
 
 #include <vector>
 
@@ -28,6 +29,8 @@ namespace VrausPercival {
 		void createSwapChain();
 		void createImageViews();
 		void createRenderPass();
+		void createFramebuffers();
+		void createGraphicsPipeline();
 		void cleanup();
 
 		// Choosers
@@ -35,9 +38,13 @@ namespace VrausPercival {
 		VkPresentModeKHR chooseSwapPresentMode(const std::vector<VkPresentModeKHR>& availablePresentModes);
 		VkExtent2D chooseSwapExtent(const VkSurfaceCapabilitiesKHR capabilities); // Extent = Resolution of the swap chain image
 
+		std::unique_ptr<Pipeline&> pipeline;
+		VkPipelineLayout pipelineLayout;
+
 		Device& device;
 		VkExtent2D windowExtent;
 
+		std::vector<VkFramebuffer> swapChainFramebuffers;
 		VkRenderPass renderPass;
 
 		VkSwapchainKHR swapChain;

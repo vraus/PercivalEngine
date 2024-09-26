@@ -36,17 +36,16 @@ namespace VrausPercival {
 			const PipelineConfigInfo& configInfo);
 		~Pipeline() {}
 
-		Pipeline(const Pipeline& pipeline) = delete;
-		Pipeline& operator=(const Pipeline& pipeline) = delete;
+		Pipeline(const Pipeline&) = delete;
+		Pipeline& operator=(const Pipeline&) = delete;
 		
-		static void defaultPipelineCongifInfo(PipelineConfigInfo& configInfo);
-
+		static void defaultPipelineConfigInfo(PipelineConfigInfo& configInfo);
 	private:
 		void createGraphicsPipeline(const std::string& vertFilePath, const std::string& fragFilePath);
 		void cleanup();
 
 		Device& device;
-		VkPipelineLayout pipelineLayout; // Put later in the reder system
+		VkPipelineLayout pipelineLayout; // Put later in the render system
 		std::unique_ptr<SwapChain> swapChain;
 		VkPipeline graphicsPipeline;
 
