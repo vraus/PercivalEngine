@@ -46,8 +46,9 @@ namespace VrausPercival {
 		void cleanup();
 
 		Device& device;
-		VkPipelineLayout pipelineLayout;
+		VkPipelineLayout pipelineLayout; // Put later in the reder system
 		std::unique_ptr<SwapChain> swapChain;
+		VkPipeline graphicsPipeline;
 
 
 		// helper

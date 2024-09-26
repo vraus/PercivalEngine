@@ -19,6 +19,9 @@ namespace VrausPercival {
 		VkExtent2D getSwapChainExtent() { return swapChainExtent; }
 		uint32_t width() { return swapChainExtent.width; }
 		uint32_t height() { return swapChainExtent.height; }
+		VkFormat getSwapChainImageFormat() { return swapChainImageFormat; }
+		VkFormat findDepthFormat();
+		VkRenderPass getRenderPass() { return renderPass; }
 
 	private:
 		void init();
@@ -34,6 +37,8 @@ namespace VrausPercival {
 
 		Device& device;
 		VkExtent2D windowExtent;
+
+		VkRenderPass renderPass;
 
 		VkSwapchainKHR swapChain;
 		VkFormat swapChainImageFormat;

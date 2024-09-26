@@ -82,6 +82,8 @@ namespace VrausPercival {
 		QueueFamilyIndices findPhysicalQueueFamilies() { return findQueueFamilies(physicalDevice); }
 		VkDevice device() { return _device; }
 		VkSurfaceKHR surface() { return _surface; }
+		VkFormat findSupportedFormat(
+			const std::vector<VkFormat>& candidates, VkImageTiling tiling, VkFormatFeatureFlags features);
 
 	private:
 		void createInstance();
