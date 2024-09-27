@@ -34,7 +34,10 @@ The `Scripts/` directory contains build scripts for Windows and Linux, and the `
   + [A Simple ECS System (C++), A. Morlan](https://austinmorlan.com/posts/entity_component_system/)
   + [Computer Graphics Programming](https://scratchapixel.com/index.html)
   + [Introduction to Component Based Architecture in Games](https://www.kodeco.com/2806-introduction-to-component-based-architecture-in-games)
+  + [Lode's take on Raycasting](https://lodev.org/cgtutor/raycasting.html)
   + [Awesome Creative Coding](https://project-awesome.org/terkelg/awesome-creative-coding)
+  + [Physically based rendering](https://www.pbr-book.org)
+  + [Raytracing in One Weekend](https://raytracing.github.io/books/RayTracingInOneWeekend.html)
 + **Books**
   + [(3rd ed) Game Engine Architecture, J. Gregory](Resources/game-engine-architecture-3rded.pdf)
   + [Programmer efficacement en C++, S.Meyers](https://www.dunod.com/sciences-techniques/programmer-efficacement-en-c-42-conseils-pour-mieux-maitriser-c-11-et-c-14)
@@ -55,6 +58,9 @@ The `Scripts/` directory contains build scripts for Windows and Linux, and the `
     + [@alecthomas's entityx](https://github.com/alecthomas/entityx)
     + [@skypjack's entt](https://github.com/skypjack/entt)
     + [@taurheim's NomadECS](https://github.com/taurheim/NomadECS)
+  + *Other*
+    + [Build you own](https://github.com/codecrafters-io/build-your-own-x)
+      + [Tinyrenderer](https://github.com/ssloy/tinyrenderer/wiki)
 
 ## License
 
