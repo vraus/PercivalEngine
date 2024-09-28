@@ -85,11 +85,16 @@ namespace VrausPercival {
 		VkFormat findSupportedFormat(
 			const std::vector<VkFormat>& candidates, VkImageTiling tiling, VkFormatFeatureFlags features);
 
+		// This function is temporary
+		VkExtent2D getWindowExtent() { return window.getExtent(); }
+
 	private:
 		void createInstance();
 		void createSurface();
 		void pickPhysicalDevice();
 		void createLogicalDevice();
+		void createCommandPool();
+
 		void mainLoop();
 		void cleanup() const;
 
@@ -120,6 +125,7 @@ namespace VrausPercival {
 
 		Window& window;
 		VkSurfaceKHR _surface;
+		VkCommandPool commandPool;
 
 		VkSwapchainKHR swapChain;
 		std::vector<VkImage> swapchainImages;

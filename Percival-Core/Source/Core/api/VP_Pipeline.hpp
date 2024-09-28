@@ -4,15 +4,15 @@
 #include "VP_SwapChain.hpp"
 
 #include <vector>
+#include <memory>
 #include <iostream>
 #include <fstream>
 
 namespace VrausPercival {
 
 	struct PipelineConfigInfo {
-		PipelineConfigInfo(const PipelineConfigInfo&) = delete;
-		PipelineConfigInfo& operator=(const PipelineConfigInfo&) = delete;
-
+		VkViewport viewport;
+		VkRect2D scissor;
 		VkPipelineViewportStateCreateInfo viewportInfo;
 		VkPipelineInputAssemblyStateCreateInfo inputAssemblyInfo;
 		VkPipelineRasterizationStateCreateInfo rasterizationInfo;
@@ -20,8 +20,6 @@ namespace VrausPercival {
 		VkPipelineColorBlendAttachmentState colorBlendAttachment;
 		VkPipelineColorBlendStateCreateInfo colorBlendInfo;
 		VkPipelineDepthStencilStateCreateInfo depthStencilInfo;
-		std::vector<VkDynamicState> dynamicStateEnables;
-		VkPipelineDynamicStateCreateInfo dynamicStateInfo;
 		VkPipelineLayout pipelineLayout = nullptr;
 		VkRenderPass renderPass = nullptr;
 		uint32_t subpass = 0;
@@ -34,25 +32,27 @@ namespace VrausPercival {
 			const std::string& vertFilePath,
 			const std::string& fragFilePath,
 			const PipelineConfigInfo& configInfo);
-		~Pipeline() {}
+		~Pipeline();
 
 		Pipeline(const Pipeline&) = delete;
 		Pipeline& operator=(const Pipeline&) = delete;
 		
-		static void defaultPipelineConfigInfo(PipelineConfigInfo& configInfo);
+		static PipelineConfigInfo defaultPipelineConfigInfo(uint32_t width, uint32_t height);
 	private:
-		void createGraphicsPipeline(const std::string& vertFilePath, const std::string& fragFilePath);
+		void createPipelineLayout();
+		void createGraphicsPipeline(const std::string& vertFilePath, const std::string& fragFilePath, const PipelineConfigInfo& configInfo);
 		void cleanup();
 
-		Device& device;
-		VkPipelineLayout pipelineLayout; // Put later in the render system
-		std::unique_ptr<SwapChain> swapChain;
+		Device& device; // Could be memory unsafe
 		VkPipeline graphicsPipeline;
+		VkPipelineLayout pipelineLayout; // Put later in the render system
 
+		VkShaderModule vertShaderModule;
+		VkShaderModule fragShaderModule;
 
 		// helper
 		static std::vector<char> readFile(const std::string& filename);
-		VkShaderModule createShaderModule(const std::vector<char>& code);
+		void createShaderModule(const std::vector<char>& code, VkShaderModule* shaderModule);
 	};
 
 }

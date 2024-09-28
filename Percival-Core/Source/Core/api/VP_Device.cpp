@@ -170,6 +170,20 @@ void VrausPercival::Device::createLogicalDevice()
 	vkGetDeviceQueue(_device, indices.presentFamily.value(), 0, &presentQueue);
 }
 
+void VrausPercival::Device::createCommandPool()
+{
+	QueueFamilyIndices queueFamilyIndices = findPhysicalQueueFamilies();
+
+	VkCommandPoolCreateInfo poolInfo = {};
+	poolInfo.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
+	poolInfo.queueFamilyIndex = queueFamilyIndices.graphicsFamily.value();
+	poolInfo.flags =
+		VK_COMMAND_POOL_CREATE_TRANSIENT_BIT | VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT;
+
+	if (vkCreateCommandPool(_device, &poolInfo, nullptr, &commandPool) != VK_SUCCESS)
+		throw std::runtime_error("Failed to create command pool !");
+}
+
 void VrausPercival::Device::mainLoop()
 {
 	while (!window.shouldClose()) {
