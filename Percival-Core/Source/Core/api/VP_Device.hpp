@@ -69,6 +69,7 @@ namespace VrausPercival {
 #else 
 		const bool enableValidationLayers = true;
 #endif
+
 		Device(Window& window);
 		~Device();
 
@@ -78,12 +79,16 @@ namespace VrausPercival {
 		Device& operator=(Device&&) = delete;
 
 		// Accessors
-		SwapChainSupportDetails getSwapChainSupport() { return querySwapChainSupport(physicalDevice); }
-		QueueFamilyIndices findPhysicalQueueFamilies() { return findQueueFamilies(physicalDevice); }
+		VkCommandPool getCommandPool() { return commandPool; }
 		VkDevice device() { return _device; }
 		VkSurfaceKHR surface() { return _surface; }
+		VkQueue graphicsQueue() { return _graphicsQueue; }
+		VkQueue presentQueue() { return _presentQueue;
+		}
 		VkFormat findSupportedFormat(
 			const std::vector<VkFormat>& candidates, VkImageTiling tiling, VkFormatFeatureFlags features);
+		SwapChainSupportDetails getSwapChainSupport() { return querySwapChainSupport(physicalDevice); }
+		QueueFamilyIndices findPhysicalQueueFamilies() { return findQueueFamilies(physicalDevice); }
 
 		// This function is temporary
 		VkExtent2D getWindowExtent() { return window.getExtent(); }
@@ -135,8 +140,8 @@ namespace VrausPercival {
 		VkPhysicalDevice physicalDevice = VK_NULL_HANDLE; // The GPU of the computer
 		VkDevice _device; // Logical device to describe features and queue families
 
-		VkQueue graphicsQueue;
-		VkQueue presentQueue;
+		VkQueue _graphicsQueue;
+		VkQueue _presentQueue;
 
 		const std::vector<const char*> validationLayers = { "VK_LAYER_KHRONOS_validation" };
 		const std::vector<const char*> deviceExtensions = { VK_KHR_SWAPCHAIN_EXTENSION_NAME };
