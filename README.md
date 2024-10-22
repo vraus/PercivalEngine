@@ -52,6 +52,7 @@ The `Scripts/` directory contains build scripts for Windows and Linux, and the `
   + [Game Engine Architecture: Bill Clark (CodeLabs Tech Talk 2020)](https://www.youtube.com/watch?v=mUeNqLcx4eI)
 + **GitHub Inspirations**
   + *Game Engines*
+    + [anthrax AI Game Engine (GitLab)](https://gitlab.com/svatostop/engine-2-0)
     + [@jkatsanis's Sprite Engine UI](https://github.com/jkatsanis/SpriteEngineUI)
     + [@Dssdiego's Feather](https://github.com/Dssdiego/feather)
   + *ECS Implementations*
