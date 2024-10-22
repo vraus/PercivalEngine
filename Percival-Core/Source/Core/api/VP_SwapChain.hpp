@@ -17,12 +17,12 @@ namespace VrausPercival {
 		SwapChain(const SwapChain& swapChain) = delete;
 		SwapChain& operator=(const SwapChain& swapChain) = delete;
 
-		VkExtent2D getSwapChainExtent() { return swapChainExtent; }
-		uint32_t width() { return swapChainExtent.width; }
-		uint32_t height() { return swapChainExtent.height; }
-		VkFormat getSwapChainImageFormat() { return swapChainImageFormat; }
+		VkExtent2D getSwapChainExtent() const { return swapChainExtent; }
+		uint32_t width() const { return swapChainExtent.width; }
+		uint32_t height() const { return swapChainExtent.height; }
+		VkFormat getSwapChainImageFormat() const { return swapChainImageFormat; }
 		VkFormat findDepthFormat();
-		VkRenderPass getRenderPass() { return renderPass; }
+		VkRenderPass getRenderPass() const { return renderPass; }
 
 	private:
 		void init();

@@ -137,7 +137,7 @@ namespace VrausPercival {
 		VkFormat swapChainImageFormat;
 		VkExtent2D swapChainExtent;
 
-		VkPhysicalDevice physicalDevice = VK_NULL_HANDLE; // The GPU of the computer
+		VkPhysicalDevice physicalDevice = VK_NULL_HANDLE; // The GPU of the computer 
 		VkDevice _device; // Logical device to describe features and queue families
 
 		VkQueue _graphicsQueue;

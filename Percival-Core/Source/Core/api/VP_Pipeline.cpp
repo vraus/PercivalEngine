@@ -97,7 +97,14 @@ VrausPercival::PipelineConfigInfo VrausPercival::Pipeline::defaultPipelineConfig
 
 void VrausPercival::Pipeline::createPipelineLayout()
 {
-	// Relocate later in the renderer
+	// Relocate later in the 
+
+
+
+
+
+
+
 	VkPipelineLayoutCreateInfo pipelineLayoutInfo{};
 	pipelineLayoutInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
 	pipelineLayoutInfo.setLayoutCount = 0; // Optional

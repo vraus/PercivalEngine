@@ -29,7 +29,7 @@ namespace VrausPercival {
 
 		Window window{ WIDTH, HEIGHT, "Percival Engine" };
 		Device device{ window };
-		// Renderer renderer{ window, device };
+		Renderer renderer{ window, device };
 		
 		Pipeline pipeline{ device, "../Shaders/simple_shader.vert.spv","../Shaders/simple_shader.frag.spv", Pipeline::defaultPipelineConfigInfo(WIDTH, HEIGHT)};
 	};

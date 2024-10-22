@@ -141,8 +141,9 @@ void VrausPercival::Device::createLogicalDevice()
 	}
 
 	// Specifiying Device Features
-	VkPhysicalDeviceFeatures deviceFeatures{}; // Empty for now ...
-	
+	VkPhysicalDeviceFeatures deviceFeatures = {};
+	deviceFeatures.samplerAnisotropy = VK_TRUE;
+
 	// Creating the logical device
 	VkDeviceCreateInfo createInfo{};
 	createInfo.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
@@ -153,21 +154,21 @@ void VrausPercival::Device::createLogicalDevice()
 	createInfo.enabledExtensionCount = static_cast<uint32_t>(deviceExtensions.size());
 	createInfo.ppEnabledExtensionNames = deviceExtensions.data();
 
-	if (enableValidationLayers) {
-		createInfo.enabledLayerCount = static_cast<uint32_t>(validationLayers.size());
-		createInfo.ppEnabledLayerNames = validationLayers.data();
-	}
-	else {
-		createInfo.enabledLayerCount = 0;
-	}
+	// if (enableValidationLayers) {
+	// 	createInfo.enabledLayerCount = static_cast<uint32_t>(validationLayers.size());
+	// 	createInfo.ppEnabledLayerNames = validationLayers.data();
+	// }
+	// else {
+	// 	createInfo.enabledLayerCount = 0;
+	// }
 
 	// Create and check the device creation
 	if (vkCreateDevice(physicalDevice, &createInfo, nullptr, &_device) != VK_SUCCESS) {
 		throw std::runtime_error("Failed to create logical device!");
 	}
 
-	vkGetDeviceQueue(_device, indices.graphicsFamily.value(), 0, &graphicsQueue);
-	vkGetDeviceQueue(_device, indices.presentFamily.value(), 0, &presentQueue);
+	vkGetDeviceQueue(_device, indices.graphicsFamily.value(), 0, &_graphicsQueue);
+	vkGetDeviceQueue(_device, indices.presentFamily.value(), 0, &_presentQueue);
 }
 
 void VrausPercival::Device::createCommandPool()
@@ -186,9 +187,9 @@ void VrausPercival::Device::createCommandPool()
 
 void VrausPercival::Device::mainLoop()
 {
-	while (!window.shouldClose()) {
-		glfwPollEvents();
-	}
+	// while (!window.shouldClose()) {
+	// 	glfwPollEvents();
+	// }
 }
 
 void VrausPercival::Device::cleanup() const
