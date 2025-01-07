@@ -3,11 +3,6 @@
 #include "VP_Device.hpp"
 #include "VP_SwapChain.hpp"
 
-#include <vector>
-#include <memory>
-#include <iostream>
-#include <fstream>
-
 namespace VrausPercival {
 
 	struct PipelineConfigInfo {
@@ -28,22 +23,27 @@ namespace VrausPercival {
 	class Pipeline
 	{
 	public:
+		/*
 		Pipeline(Device& device,
 			const std::string& vertFilePath,
 			const std::string& fragFilePath,
 			const PipelineConfigInfo& configInfo);
+			*/
+		Pipeline(const std::string& vertFilePath,
+			const std::string& fragFilePath);
+
 		~Pipeline();
 
 		Pipeline(const Pipeline&) = delete;
 		Pipeline& operator=(const Pipeline&) = delete;
 		
-		static PipelineConfigInfo defaultPipelineConfigInfo(uint32_t width, uint32_t height);
+		// static PipelineConfigInfo defaultPipelineConfigInfo(uint32_t width, uint32_t height);
 	private:
-		void createPipelineLayout();
-		void createGraphicsPipeline(const std::string& vertFilePath, const std::string& fragFilePath, const PipelineConfigInfo& configInfo);
-		void cleanup();
+		// void createPipelineLayout();
+		void createGraphicsPipeline(const std::string& vertFilePath, const std::string& fragFilePath);
+		// void cleanup();
 
-		Device& device; // Could be memory unsafe
+		// Device& device; // Could be memory unsafe
 		VkPipeline graphicsPipeline;
 		VkPipelineLayout pipelineLayout; // Put later in the render system
 
@@ -52,7 +52,7 @@ namespace VrausPercival {
 
 		// helper
 		static std::vector<char> readFile(const std::string& filename);
-		void createShaderModule(const std::vector<char>& code, VkShaderModule* shaderModule);
+		// void createShaderModule(const std::vector<char>& code, VkShaderModule* shaderModule);
 	};
 
 }

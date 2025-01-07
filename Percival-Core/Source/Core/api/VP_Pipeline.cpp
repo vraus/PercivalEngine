@@ -1,20 +1,35 @@
 #include "VP_Pipeline.hpp"
 
+// std
+//#include <filesystem>
+#include <vector>
+#include <memory>
+#include <iostream>
+#include <fstream>
 #include <cassert>
+#include <stdexcept>
 
+/*
 VrausPercival::Pipeline::Pipeline(Device& device_, const std::string& vertFilePath, const std::string& fragFilePath, const PipelineConfigInfo &configInfo) 
 	: device(device_)
 {
 	createGraphicsPipeline(vertFilePath, fragFilePath, configInfo);
 }
+*/
+
+VrausPercival::Pipeline::Pipeline(const std::string& vertFilePath, const std::string& fragFilePath)
+{
+	createGraphicsPipeline(vertFilePath, fragFilePath);
+}
 
 VrausPercival::Pipeline::~Pipeline()
 {
-	vkDestroyShaderModule(device.device(), fragShaderModule, nullptr);
-	vkDestroyShaderModule(device.device(), vertShaderModule, nullptr);
-	vkDestroyPipeline(device.device(), graphicsPipeline, nullptr);
+	// vkDestroyShaderModule(device.device(), fragShaderModule, nullptr);
+	// vkDestroyShaderModule(device.device(), vertShaderModule, nullptr);
+	// vkDestroyPipeline(device.device(), graphicsPipeline, nullptr);
 }
 
+/*
 VrausPercival::PipelineConfigInfo VrausPercival::Pipeline::defaultPipelineConfigInfo(uint32_t width, uint32_t height)
 {
 	PipelineConfigInfo configInfo{};
@@ -97,14 +112,6 @@ VrausPercival::PipelineConfigInfo VrausPercival::Pipeline::defaultPipelineConfig
 
 void VrausPercival::Pipeline::createPipelineLayout()
 {
-	// Relocate later in the 
-
-
-
-
-
-
-
 	VkPipelineLayoutCreateInfo pipelineLayoutInfo{};
 	pipelineLayoutInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
 	pipelineLayoutInfo.setLayoutCount = 0; // Optional
@@ -116,17 +123,19 @@ void VrausPercival::Pipeline::createPipelineLayout()
 		throw std::runtime_error("Failed to create Pipeline layout !");
 	}
 }
+*/
 
-void VrausPercival::Pipeline::createGraphicsPipeline(const std::string& vertFilePath, const std::string& fragFilePath, const PipelineConfigInfo& configInfo)
+void VrausPercival::Pipeline::createGraphicsPipeline(const std::string& vertFilePath, const std::string& fragFilePath)
 {
-	assert(configInfo.pipelineLayout != VK_NULL_HANDLE && "Cannot create graphics pipeline without pipelinelayout provided in configIngo !");
-	assert(configInfo.renderPass != VK_NULL_HANDLE && "Cannot create graphics pipeline without renderPass provided in configInfo !");
+	// assert(configInfo.pipelineLayout != VK_NULL_HANDLE && "Cannot create graphics pipeline without pipelinelayout provided in configIngo !");
+	// assert(configInfo.renderPass != VK_NULL_HANDLE && "Cannot create graphics pipeline without renderPass provided in configInfo !");
 
 	auto vertShaderCode = readFile(vertFilePath);
 	auto fragShaderCode = readFile(fragFilePath);
 
-	std::cout << "here" << vertFilePath << "\n";
-
+	std::cout << "Vertex Shader size: " << vertShaderCode.size() << "\n";
+	std::cout << "Fragment Shader size: " << fragShaderCode.size() << "\n";
+	/* 
 	createShaderModule(fragShaderCode, &fragShaderModule);
 	createShaderModule(vertShaderCode, &vertShaderModule);
 
@@ -175,21 +184,27 @@ void VrausPercival::Pipeline::createGraphicsPipeline(const std::string& vertFile
 
 	if (vkCreateGraphicsPipelines(device.device(), VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &graphicsPipeline) != VK_SUCCESS)
 		throw std::runtime_error("Failed to create graphics pipeline! ");
+		*/
 
 }
 
+/*
 void VrausPercival::Pipeline::cleanup()
 {
 	vkDestroyPipeline(device.device(), graphicsPipeline, nullptr);
 	vkDestroyPipelineLayout(device.device(), pipelineLayout, nullptr);
 }
+*/
 
 std::vector<char> VrausPercival::Pipeline::readFile(const std::string& filename)
-{
-	std::ifstream file{ filename, std::ios::ate | std::ios::binary };
+{	
+	std::ifstream file{ filename, std::ios::ate | std::ios::binary};
 
-	if (!file.is_open())
-		throw std::runtime_error("Failed to open file ! " + filename); 
+	if (!file.is_open()) {
+		std::cout << "Failed to open file: " + filename << std::endl;
+		exit(1);
+		throw std::runtime_error("Failed to open file: " + filename); 
+	}
 
 	size_t fileSize = static_cast<size_t>(file.tellg());
 	std::vector<char> buffer(fileSize);
@@ -200,7 +215,7 @@ std::vector<char> VrausPercival::Pipeline::readFile(const std::string& filename)
 
 	return buffer;
 }
-
+/*
 void VrausPercival::Pipeline::createShaderModule(const std::vector<char>& code, VkShaderModule* shaderModule)
 {
 	VkShaderModuleCreateInfo createInfo{};
@@ -211,3 +226,4 @@ void VrausPercival::Pipeline::createShaderModule(const std::vector<char>& code, 
 	if (vkCreateShaderModule(device.device(), &createInfo, nullptr, shaderModule) != VK_SUCCESS)
 		throw std::runtime_error("Failed to create shader module !");
 }
+*/
