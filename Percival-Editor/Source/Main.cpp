@@ -1,7 +1,9 @@
 #include "Core/api/VP_Engine.hpp"
 
+// std
 #include <iostream>
 #include <cstdlib>
+#include <stdexcept>
 
 int main() {
 	

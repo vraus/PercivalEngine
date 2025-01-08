@@ -10,6 +10,9 @@
 #include <memory>
 #include <vector>
 
+#define VERT_SPV_PATH "C:/Users/hadri/Documents/GitHub/PercivalEngine/Percival-Core/Source/Core/Shaders/simple_shader.vert.spv"
+#define FRAG_SPV_PATH "C:/Users/hadri/Documents/GitHub/PercivalEngine/Percival-Core/Source/Core/Shaders/simple_shader.frag.spv"
+
 namespace VrausPercival {
 	
 	class Engine {
@@ -28,9 +31,9 @@ namespace VrausPercival {
 	private:
 
 		Window window{ WIDTH, HEIGHT, "Percival Engine" };
-		Device device{ window };
-		Renderer renderer{ window, device };
+		// Device device{ window };
+		// Renderer renderer{ window, device };
 		
-		Pipeline pipeline{ device, "../Shaders/simple_shader.vert.spv","../Shaders/simple_shader.frag.spv", Pipeline::defaultPipelineConfigInfo(WIDTH, HEIGHT)};
+		Pipeline pipeline{ VERT_SPV_PATH,FRAG_SPV_PATH};
 	};
 }

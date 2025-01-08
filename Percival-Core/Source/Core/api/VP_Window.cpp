@@ -7,6 +7,11 @@ VrausPercival::Window::Window(int w, int h, std::string name) : width { w }, hei
 	initwindow();
 }
 
+VrausPercival::Window::~Window() {
+	glfwDestroyWindow(window);
+	glfwTerminate();
+}
+
 void VrausPercival::Window::createWindowSurface(VkInstance instance, VkSurfaceKHR* surface)
 {
 	if (glfwCreateWindowSurface(instance, window, nullptr, surface) != VK_SUCCESS) {
