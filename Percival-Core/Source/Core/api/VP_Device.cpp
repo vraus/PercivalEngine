@@ -1,14 +1,15 @@
 #include "VP_Device.hpp"
 
-vraus_percival::Device::Device(Window& window) : window {window}
+vraus_percival::Device::Device(Window& window) : window_ {window}
 {
 	createInstance();
 	setupDebugMessenger();
-	createSurface();
+	createSurface(); 
 	pickPhysicalDevice();
 	createLogicalDevice();
-	mainLoop();
-	cleanup();
+	createCommandPool();
+	// mainLoop();
+	// cleanup();
 }
 
 vraus_percival::Device::~Device()
@@ -20,7 +21,7 @@ VkFormat vraus_percival::Device::findSupportedFormat(const std::vector<VkFormat>
 {
 		for (VkFormat format : candidates) {
 			VkFormatProperties props;
-			vkGetPhysicalDeviceFormatProperties(physicalDevice, format, &props);
+			vkGetPhysicalDeviceFormatProperties(physical_device_, format, &props);
 
 			if (tiling == VK_IMAGE_TILING_LINEAR && (props.linearTilingFeatures & features) == features) {
 				return format;
@@ -59,8 +60,8 @@ void vraus_percival::Device::createInstance()
 	createInfo.ppEnabledExtensionNames = extensions.data();
 	createInfo.enabledLayerCount = 0;
 	if (enableValidationLayers) {
-		createInfo.enabledLayerCount = static_cast<uint32_t>(validationLayers.size());
-		createInfo.ppEnabledLayerNames = validationLayers.data();
+		createInfo.enabledLayerCount = static_cast<uint32_t>(validation_layers_.size());
+		createInfo.ppEnabledLayerNames = validation_layers_.data();
 	}
 	else {
 		createInfo.enabledLayerCount = 0;
@@ -68,8 +69,8 @@ void vraus_percival::Device::createInstance()
 
 	VkDebugUtilsMessengerCreateInfoEXT debugCreateInfo{};
 	if (enableValidationLayers) {
-		createInfo.enabledLayerCount = static_cast<uint32_t>(validationLayers.size());
-		createInfo.ppEnabledLayerNames = validationLayers.data();
+		createInfo.enabledLayerCount = static_cast<uint32_t>(validation_layers_.size());
+		createInfo.ppEnabledLayerNames = validation_layers_.data();
 
 		populateDebugMessengerCreateInfo(debugCreateInfo);
 		createInfo.pNext = (VkDebugUtilsMessengerCreateInfoEXT*) &debugCreateInfo;
@@ -79,25 +80,25 @@ void vraus_percival::Device::createInstance()
 		createInfo.pNext = nullptr;
 	}
 
-	if (vkCreateInstance(&createInfo, nullptr, &instance) != VK_SUCCESS)
+	if (vkCreateInstance(&createInfo, nullptr, &instance_) != VK_SUCCESS)
 		throw std::runtime_error("Failed to create instance!");
 }
 
 void vraus_percival::Device::createSurface()
 {
-	window.createWindowSurface(instance, &_surface);
+	window_.createWindowSurface(instance_, &surface_);
 }
 
 void vraus_percival::Device::pickPhysicalDevice()
 {
 	uint32_t deviceCount = 0;
-	vkEnumeratePhysicalDevices(instance, &deviceCount, nullptr);
+	vkEnumeratePhysicalDevices(instance_, &deviceCount, nullptr);
 
 	if (deviceCount == 0)
 		throw std::runtime_error("Failed to find GPUs with Vulkan support!");
 
 	std::vector<VkPhysicalDevice> devices(deviceCount);
-	vkEnumeratePhysicalDevices(instance, &deviceCount, devices.data());
+	vkEnumeratePhysicalDevices(instance_, &deviceCount, devices.data());
 
 	// Store GPU suitability score
 	std::multimap<int, VkPhysicalDevice> candidates;
@@ -109,20 +110,20 @@ void vraus_percival::Device::pickPhysicalDevice()
 
 	// Check if the best candidate is suitable at all
 	if (candidates.rbegin()->first > 0) { // If score is > 0
-		physicalDevice = candidates.rbegin()->second; // Collect candidate
+		physical_device_ = candidates.rbegin()->second; // Collect candidate
 	}
 	else {
 		throw std::runtime_error("Failed to find a suitable GPU!");
 	}
 
-	if (physicalDevice == VK_NULL_HANDLE)
+	if (physical_device_ == VK_NULL_HANDLE)
 		throw std::runtime_error("Failed to find a suitable GPU!");
 }
 
 void vraus_percival::Device::createLogicalDevice()
 {
 	// Specifying Queue Families
-	QueueFamilyIndices indices = findQueueFamilies(physicalDevice);
+	QueueFamilyIndices indices = findQueueFamilies(physical_device_);
 
 	std::vector<VkDeviceQueueCreateInfo> queueCreateInfos;
 	std::set<uint32_t> uniqueQueueFamilies = {
@@ -151,8 +152,8 @@ void vraus_percival::Device::createLogicalDevice()
 	createInfo.pQueueCreateInfos = queueCreateInfos.data();
 	createInfo.pEnabledFeatures = &deviceFeatures;
 
-	createInfo.enabledExtensionCount = static_cast<uint32_t>(deviceExtensions.size());
-	createInfo.ppEnabledExtensionNames = deviceExtensions.data();
+	createInfo.enabledExtensionCount = static_cast<uint32_t>(device_extensions_.size());
+	createInfo.ppEnabledExtensionNames = device_extensions_.data();
 
 	// if (enableValidationLayers) {
 	// 	createInfo.enabledLayerCount = static_cast<uint32_t>(validationLayers.size());
@@ -163,12 +164,12 @@ void vraus_percival::Device::createLogicalDevice()
 	// }
 
 	// Create and check the device creation
-	if (vkCreateDevice(physicalDevice, &createInfo, nullptr, &_device) != VK_SUCCESS) {
+	if (vkCreateDevice(physical_device_, &createInfo, nullptr, &device_) != VK_SUCCESS) {
 		throw std::runtime_error("Failed to create logical device!");
 	}
 
-	vkGetDeviceQueue(_device, indices.graphicsFamily.value(), 0, &_graphicsQueue);
-	vkGetDeviceQueue(_device, indices.presentFamily.value(), 0, &_presentQueue);
+	vkGetDeviceQueue(device_, indices.graphicsFamily.value(), 0, &graphics_queue_);
+	vkGetDeviceQueue(device_, indices.presentFamily.value(), 0, &present_queue_);
 }
 
 void vraus_percival::Device::createCommandPool()
@@ -181,7 +182,7 @@ void vraus_percival::Device::createCommandPool()
 	poolInfo.flags =
 		VK_COMMAND_POOL_CREATE_TRANSIENT_BIT | VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT;
 
-	if (vkCreateCommandPool(_device, &poolInfo, nullptr, &commandPool) != VK_SUCCESS)
+	if (vkCreateCommandPool(device_, &poolInfo, nullptr, &command_pool_) != VK_SUCCESS)
 		throw std::runtime_error("Failed to create command pool !");
 }
 
@@ -194,15 +195,15 @@ void vraus_percival::Device::mainLoop()
 
 void vraus_percival::Device::cleanup() const
 {
-	vkDestroySwapchainKHR(_device, swapChain, nullptr);
-	vkDestroyDevice(_device, nullptr);
+	vkDestroySwapchainKHR(device_, swap_chain_, nullptr);
+	vkDestroyDevice(device_, nullptr);
 
 	if (enableValidationLayers) {
-		DestroyDebugUtilsMessengerEXT(instance, debugMessenger, nullptr);
+		DestroyDebugUtilsMessengerEXT(instance_, debug_messenger_, nullptr);
 	}
 
-	vkDestroySurfaceKHR(instance, _surface, nullptr);
-	vkDestroyInstance(instance, nullptr);
+	vkDestroySurfaceKHR(instance_, surface_, nullptr);
+	vkDestroyInstance(instance_, nullptr);
 
 	// glfwDestroyWindow(window);
 	glfwTerminate();
@@ -215,7 +216,7 @@ void vraus_percival::Device::setupDebugMessenger()
 	VkDebugUtilsMessengerCreateInfoEXT createInfo{};
 	populateDebugMessengerCreateInfo(createInfo);
 
-	if (CreateDebugUtilsMessengerEXT(instance, &createInfo, nullptr, &debugMessenger) != VK_SUCCESS) {
+	if (CreateDebugUtilsMessengerEXT(instance_, &createInfo, nullptr, &debug_messenger_) != VK_SUCCESS) {
 		throw std::runtime_error("Failed to setup deubg messenger!");
 	}
 }
@@ -239,7 +240,7 @@ bool vraus_percival::Device::checkValidationLayerSupport()
 	std::vector<VkLayerProperties> availableLayers(layerCount);
 	vkEnumerateInstanceLayerProperties(&layerCount, availableLayers.data());
 
-	for (const char* layerName : validationLayers) {
+	for (const char* layerName : validation_layers_) {
 		bool layerFound = false;
 
 		for (const auto& layerProperties : availableLayers) {
@@ -322,7 +323,7 @@ bool vraus_percival::Device::checkDeviceExtensionSupport(VkPhysicalDevice device
 	std::vector<VkExtensionProperties> availableExtensions(extensionCount);
 	vkEnumerateDeviceExtensionProperties(device, nullptr, &extensionCount, availableExtensions.data());
 
-	std::set<std::string> requiredExtensions(deviceExtensions.begin(), deviceExtensions.end());
+	std::set<std::string> requiredExtensions(device_extensions_.begin(), device_extensions_.end());
 
 	for (const auto& extension : availableExtensions) {
 		requiredExtensions.erase(extension.extensionName);
@@ -349,7 +350,7 @@ vraus_percival::QueueFamilyIndices vraus_percival::Device::findQueueFamilies(VkP
 		}
 
 		VkBool32 presentSupport = false;
-		vkGetPhysicalDeviceSurfaceSupportKHR(device, i, _surface, &presentSupport);
+		vkGetPhysicalDeviceSurfaceSupportKHR(device, i, surface_, &presentSupport);
 		
 		if (queueFamily.queueCount > 0 && presentSupport) {
 			indices.presentFamily = i;
@@ -370,22 +371,22 @@ vraus_percival::SwapChainSupportDetails vraus_percival::Device::querySwapChainSu
 	SwapChainSupportDetails details;
 
 	// Basic Surface Capabilities
-	vkGetPhysicalDeviceSurfaceCapabilitiesKHR(device, _surface, &details.capabilities);
+	vkGetPhysicalDeviceSurfaceCapabilitiesKHR(device, surface_, &details.capabilities);
 	
 	// Querying for suppported surface formats
 	uint32_t formatCount;
-	vkGetPhysicalDeviceSurfaceFormatsKHR(device, _surface, &formatCount, nullptr);
+	vkGetPhysicalDeviceSurfaceFormatsKHR(device, surface_, &formatCount, nullptr);
 	if (formatCount != 0) {
 		details.formats.resize(formatCount);
-		vkGetPhysicalDeviceSurfaceFormatsKHR(device, _surface, &formatCount, details.formats.data());
+		vkGetPhysicalDeviceSurfaceFormatsKHR(device, surface_, &formatCount, details.formats.data());
 	}
 
 	// Querying for supported presentation modes
 	uint32_t presentModeCount;
-	vkGetPhysicalDeviceSurfacePresentModesKHR(device, _surface, &presentModeCount, nullptr);
+	vkGetPhysicalDeviceSurfacePresentModesKHR(device, surface_, &presentModeCount, nullptr);
 	if (presentModeCount != 0) {
 		details.presentModes.resize(presentModeCount);
-		vkGetPhysicalDeviceSurfacePresentModesKHR(device, _surface, &presentModeCount, details.presentModes.data());
+		vkGetPhysicalDeviceSurfacePresentModesKHR(device, surface_, &presentModeCount, details.presentModes.data());
 	}
 
 	return details;

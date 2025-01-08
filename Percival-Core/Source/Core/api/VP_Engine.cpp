@@ -2,6 +2,6 @@
 
 void vraus_percival::Engine::run()
 {
-	while (!window.shouldClose())
+	while (!window_.shouldClose())
 		glfwPollEvents();
 }

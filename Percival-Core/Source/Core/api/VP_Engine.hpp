@@ -17,8 +17,8 @@ namespace vraus_percival {
 	
 	class Engine {
 	public:
-		static constexpr int WIDTH = 800;
-		static constexpr int HEIGHT = 600;
+		static constexpr int width = 800;
+		static constexpr int height = 600;
 
 		Engine() {}
 		~Engine() {}
@@ -30,10 +30,10 @@ namespace vraus_percival {
 
 	private:
 
-		Window window{ WIDTH, HEIGHT, "Percival Engine" };
-		// Device device{ window };
+		Window window_{ width, height, "Percival Engine" };
+		Device device_{ window_ };
 		// Renderer renderer{ window, device };
 		
-		Pipeline pipeline{ VERT_SPV_PATH,FRAG_SPV_PATH};
+		Pipeline pipeline_{device_, VERT_SPV_PATH,FRAG_SPV_PATH, Pipeline::defaultPipelineConfigInfo(width, height)};
 	};
 }

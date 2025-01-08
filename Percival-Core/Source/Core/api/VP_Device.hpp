@@ -79,19 +79,19 @@ namespace vraus_percival {
 		Device& operator=(Device&&) = delete;
 
 		// Accessors
-		VkCommandPool getCommandPool() { return commandPool; }
-		VkDevice device() { return _device; }
-		VkSurfaceKHR surface() { return _surface; }
-		VkQueue graphicsQueue() { return _graphicsQueue; }
-		VkQueue presentQueue() { return _presentQueue;
+		VkCommandPool getCommandPool() { return command_pool_; }
+		VkDevice device() { return device_; }
+		VkSurfaceKHR surface() { return surface_; }
+		VkQueue graphicsQueue() { return graphics_queue_; }
+		VkQueue presentQueue() { return present_queue_;
 		}
 		VkFormat findSupportedFormat(
 			const std::vector<VkFormat>& candidates, VkImageTiling tiling, VkFormatFeatureFlags features);
-		SwapChainSupportDetails getSwapChainSupport() { return querySwapChainSupport(physicalDevice); }
-		QueueFamilyIndices findPhysicalQueueFamilies() { return findQueueFamilies(physicalDevice); }
+		SwapChainSupportDetails getSwapChainSupport() { return querySwapChainSupport(physical_device_); }
+		QueueFamilyIndices findPhysicalQueueFamilies() { return findQueueFamilies(physical_device_); }
 
 		// This function is temporary
-		VkExtent2D getWindowExtent() { return window.getExtent(); }
+		VkExtent2D getWindowExtent() { return window_.getExtent(); }
 
 	private:
 		void createInstance();
@@ -125,26 +125,26 @@ namespace vraus_percival {
 			void* pUserData
 		);
 
-		VkInstance instance; // Instance of Vulkan library
-		VkDebugUtilsMessengerEXT debugMessenger;
+		VkInstance instance_; // Instance of Vulkan library
+		VkDebugUtilsMessengerEXT debug_messenger_;
 
-		Window& window;
-		VkSurfaceKHR _surface;
-		VkCommandPool commandPool;
+		Window& window_;
+		VkSurfaceKHR surface_;
+		VkCommandPool command_pool_;
 
-		VkSwapchainKHR swapChain;
-		std::vector<VkImage> swapchainImages;
-		VkFormat swapChainImageFormat;
-		VkExtent2D swapChainExtent;
+		VkSwapchainKHR swap_chain_;
+		std::vector<VkImage> swapchain_images_;
+		VkFormat swap_chain_image_format_;
+		VkExtent2D swap_chain_extent_;
 
-		VkPhysicalDevice physicalDevice = VK_NULL_HANDLE; // The GPU of the computer 
-		VkDevice _device; // Logical device to describe features and queue families
+		VkPhysicalDevice physical_device_ = VK_NULL_HANDLE; // The GPU of the computer 
+		VkDevice device_; // Logical device to describe features and queue families
 
-		VkQueue _graphicsQueue;
-		VkQueue _presentQueue;
+		VkQueue graphics_queue_;
+		VkQueue present_queue_;
 
-		const std::vector<const char*> validationLayers = { "VK_LAYER_KHRONOS_validation" };
-		const std::vector<const char*> deviceExtensions = { VK_KHR_SWAPCHAIN_EXTENSION_NAME };
+		const std::vector<const char*> validation_layers_ = { "VK_LAYER_KHRONOS_validation" };
+		const std::vector<const char*> device_extensions_ = { VK_KHR_SWAPCHAIN_EXTENSION_NAME };
 	};
 
 }

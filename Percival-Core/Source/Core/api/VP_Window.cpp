@@ -2,19 +2,19 @@
 
 #include <iostream>
 
-vraus_percival::Window::Window(int w, int h, std::string name) : width { w }, height { h }, windowName { name }
+vraus_percival::Window::Window(int w, int h, std::string name) : width_ { w }, height_ { h }, window_name_ { name }
 {
 	initwindow();
 }
 
 vraus_percival::Window::~Window() {
-	glfwDestroyWindow(window);
+	glfwDestroyWindow(window_);
 	glfwTerminate();
 }
 
 void vraus_percival::Window::createWindowSurface(VkInstance instance, VkSurfaceKHR* surface)
 {
-	if (glfwCreateWindowSurface(instance, window, nullptr, surface) != VK_SUCCESS) {
+	if (glfwCreateWindowSurface(instance, window_, nullptr, surface) != VK_SUCCESS) {
 		throw std::runtime_error("Failed to create window surface");
 	}
 }
@@ -26,7 +26,7 @@ VkExtent2D vraus_percival::Window::chooseSwapExtent(const VkSurfaceCapabilitiesK
 	}
 	else {
 		int width, height;
-		glfwGetFramebufferSize(window, &width, &height);
+		glfwGetFramebufferSize(window_, &width, &height);
 
 		VkExtent2D actualExtent = {
 			static_cast<uint32_t>(width),
@@ -46,7 +46,7 @@ void vraus_percival::Window::initwindow()
 	glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
 	glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
 
-	window = glfwCreateWindow(width, height, windowName.c_str(), nullptr, nullptr);
-	glfwSetWindowUserPointer(window, this);
+	window_ = glfwCreateWindow(width_, height_, window_name_.c_str(), nullptr, nullptr);
+	glfwSetWindowUserPointer(window_, this);
 	// glfwSetFramebufferSizeCallback(window, nullptr);
 }

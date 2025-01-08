@@ -20,19 +20,19 @@ namespace vraus_percival {
 		Window(const Window& window) = delete;
 		Window& operator=(const Window& window) = delete;
 
-		bool shouldClose() { return glfwWindowShouldClose(window); }
-		VkExtent2D getExtent() { return { static_cast<uint32_t>(width),static_cast<uint32_t>(height) }; }
+		bool shouldClose() { return glfwWindowShouldClose(window_); }
+		VkExtent2D getExtent() { return { static_cast<uint32_t>(width_),static_cast<uint32_t>(height_) }; }
 		void createWindowSurface(VkInstance instance, VkSurfaceKHR* surface);
 		VkExtent2D chooseSwapExtent(const VkSurfaceCapabilitiesKHR capabilities);
 
 	private:
 		void initwindow();
 
-		int width;
-		int height;
-		std::string windowName;
+		int width_;
+		int height_;
+		std::string window_name_;
 
-		GLFWwindow* window;
+		GLFWwindow* window_;
 	};
 
 }
