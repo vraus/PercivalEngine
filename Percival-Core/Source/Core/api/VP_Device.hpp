@@ -127,8 +127,10 @@ namespace vraus_percival {
 
 		VkInstance instance_; // Instance of Vulkan library
 		VkDebugUtilsMessengerEXT debug_messenger_;
+		VkPhysicalDevice physical_device_ = VK_NULL_HANDLE; // The GPU of the computer 
 
 		Window& window_;
+		VkDevice device_; // Logical device to describe features and queue families
 		VkSurfaceKHR surface_;
 		VkCommandPool command_pool_;
 
@@ -137,8 +139,6 @@ namespace vraus_percival {
 		VkFormat swap_chain_image_format_;
 		VkExtent2D swap_chain_extent_;
 
-		VkPhysicalDevice physical_device_ = VK_NULL_HANDLE; // The GPU of the computer 
-		VkDevice device_; // Logical device to describe features and queue families
 
 		VkQueue graphics_queue_;
 		VkQueue present_queue_;
