@@ -1,12 +1,12 @@
 #include "VP_SwapChain.hpp"
 #include <cassert>
 
-VrausPercival::SwapChain::SwapChain(Device& deviceRef, VkExtent2D windowExtent) : device{ deviceRef }, windowExtent{ windowExtent }
+vraus_percival::SwapChain::SwapChain(Device& deviceRef, VkExtent2D windowExtent) : device{ deviceRef }, windowExtent{ windowExtent }
 {
 	init();
 }
 
-VkFormat VrausPercival::SwapChain::findDepthFormat()
+VkFormat vraus_percival::SwapChain::findDepthFormat()
 {
 	return device.findSupportedFormat(
 		{ VK_FORMAT_D32_SFLOAT, VK_FORMAT_D32_SFLOAT_S8_UINT, VK_FORMAT_D24_UNORM_S8_UINT },
@@ -14,7 +14,7 @@ VkFormat VrausPercival::SwapChain::findDepthFormat()
 		VK_FORMAT_FEATURE_DEPTH_STENCIL_ATTACHMENT_BIT);
 }
 
-void VrausPercival::SwapChain::init()
+void vraus_percival::SwapChain::init()
 {
 	createSwapChain();
 	createImageViews();
@@ -22,7 +22,7 @@ void VrausPercival::SwapChain::init()
 	createFramebuffers();
 }
 
-void VrausPercival::SwapChain::createSwapChain()
+void vraus_percival::SwapChain::createSwapChain()
 {
 	SwapChainSupportDetails swapChainSupport = device.getSwapChainSupport();
 
@@ -80,7 +80,7 @@ void VrausPercival::SwapChain::createSwapChain()
 	swapChainExtent = extent;
 }
 
-void VrausPercival::SwapChain::createImageViews()
+void vraus_percival::SwapChain::createImageViews()
 {
 	swapChainImageViews.resize(swapChainImages.size());
 
@@ -109,7 +109,7 @@ void VrausPercival::SwapChain::createImageViews()
 	}
 }
 
-void VrausPercival::SwapChain::createRenderPass()
+void vraus_percival::SwapChain::createRenderPass()
 {
 	VkAttachmentDescription colorAttachment{};
 	colorAttachment.format = swapChainImageFormat;
@@ -141,7 +141,7 @@ void VrausPercival::SwapChain::createRenderPass()
 		throw std::runtime_error("Failed to create render pass !");
 }
 
-void VrausPercival::SwapChain::createFramebuffers()
+void vraus_percival::SwapChain::createFramebuffers()
 {
 	swapChainFramebuffers.resize(swapChainImageViews.size());
 
@@ -163,7 +163,7 @@ void VrausPercival::SwapChain::createFramebuffers()
 	}
 }
 
-void VrausPercival::SwapChain::cleanup()
+void vraus_percival::SwapChain::cleanup()
 {
 	for (auto framebuffer : swapChainFramebuffers)
 		vkDestroyFramebuffer(device.device(), framebuffer, nullptr);
@@ -174,7 +174,7 @@ void VrausPercival::SwapChain::cleanup()
 	vkDestroyRenderPass(device.device(), renderPass, nullptr);
 }
 
-VkSurfaceFormatKHR VrausPercival::SwapChain::chooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats)
+VkSurfaceFormatKHR vraus_percival::SwapChain::chooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats)
 {
 	for (const auto& availableFormat : availableFormats) {
 		if (availableFormat.format == VK_FORMAT_B8G8R8A8_SRGB && availableFormat.colorSpace == VK_COLORSPACE_SRGB_NONLINEAR_KHR)
@@ -184,7 +184,7 @@ VkSurfaceFormatKHR VrausPercival::SwapChain::chooseSwapSurfaceFormat(const std::
 	return availableFormats[0]; // This function could be changed to have a ranking strategie on all formats
 }
 
-VkPresentModeKHR VrausPercival::SwapChain::chooseSwapPresentMode(const std::vector<VkPresentModeKHR>& availablePresentModes)
+VkPresentModeKHR vraus_percival::SwapChain::chooseSwapPresentMode(const std::vector<VkPresentModeKHR>& availablePresentModes)
 {
 	for (const auto& availablePresentMode : availablePresentModes) {
 		if (availablePresentMode == VK_PRESENT_MODE_MAILBOX_KHR)
@@ -193,7 +193,7 @@ VkPresentModeKHR VrausPercival::SwapChain::chooseSwapPresentMode(const std::vect
 	return VK_PRESENT_MODE_FIFO_KHR;
 }
 
-VkExtent2D VrausPercival::SwapChain::chooseSwapExtent(const VkSurfaceCapabilitiesKHR capabilities)
+VkExtent2D vraus_percival::SwapChain::chooseSwapExtent(const VkSurfaceCapabilitiesKHR capabilities)
 {
 	if (capabilities.currentExtent.width != int(std::numeric_limits<uint32_t>::max)) {
 		return capabilities.currentExtent;

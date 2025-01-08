@@ -13,7 +13,7 @@
 #define VERT_SPV_PATH "C:/Users/hadri/Documents/GitHub/PercivalEngine/Percival-Core/Source/Core/Shaders/simple_shader.vert.spv"
 #define FRAG_SPV_PATH "C:/Users/hadri/Documents/GitHub/PercivalEngine/Percival-Core/Source/Core/Shaders/simple_shader.frag.spv"
 
-namespace VrausPercival {
+namespace vraus_percival {
 	
 	class Engine {
 	public:

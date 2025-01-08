@@ -22,7 +22,7 @@
 #include <cstdint>
 #include <algorithm>
 
-namespace VrausPercival {
+namespace vraus_percival {
 
 	static VkResult CreateDebugUtilsMessengerEXT(
 		VkInstance instance,

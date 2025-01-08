@@ -1,6 +1,6 @@
 #include "VP_Renderer.hpp"
 
-VrausPercival::Renderer::Renderer(Window& window, Device& device) : window {window}, device {device}
+vraus_percival::Renderer::Renderer(Window& window, Device& device) : window {window}, device {device}
 {
 	std::cout << "here in renderer\n";
 

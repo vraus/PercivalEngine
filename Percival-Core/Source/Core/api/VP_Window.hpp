@@ -9,7 +9,7 @@
 #include <algorithm>
 #include <limits>
 
-namespace VrausPercival {
+namespace vraus_percival {
 
 	class Window
 	{

@@ -1,6 +1,6 @@
 #include "VP_Engine.hpp"
 
-void VrausPercival::Engine::run()
+void vraus_percival::Engine::run()
 {
 	while (!window.shouldClose())
 		glfwPollEvents();

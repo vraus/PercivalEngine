@@ -3,7 +3,7 @@
 #include "../api/VP_Pipeline.hpp"
 #include "../api/VP_Device.hpp"
 
-namespace VrausPercival {
+namespace vraus_percival {
 
 	class RenderSystem
 	{

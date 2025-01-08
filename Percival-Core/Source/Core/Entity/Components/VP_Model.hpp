@@ -1,6 +1,6 @@
 #pragma once
 
-namespace VrausPercival {
+namespace vraus_percival {
 
 	class Model
 	{

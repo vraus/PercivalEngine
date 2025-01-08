@@ -1,6 +1,6 @@
 #include "VP_Device.hpp"
 
-VrausPercival::Device::Device(Window& window) : window {window}
+vraus_percival::Device::Device(Window& window) : window {window}
 {
 	createInstance();
 	setupDebugMessenger();
@@ -11,12 +11,12 @@ VrausPercival::Device::Device(Window& window) : window {window}
 	cleanup();
 }
 
-VrausPercival::Device::~Device()
+vraus_percival::Device::~Device()
 {
 	cleanup();
 }
 
-VkFormat VrausPercival::Device::findSupportedFormat(const std::vector<VkFormat>& candidates, VkImageTiling tiling, VkFormatFeatureFlags features)
+VkFormat vraus_percival::Device::findSupportedFormat(const std::vector<VkFormat>& candidates, VkImageTiling tiling, VkFormatFeatureFlags features)
 {
 		for (VkFormat format : candidates) {
 			VkFormatProperties props;
@@ -33,7 +33,7 @@ VkFormat VrausPercival::Device::findSupportedFormat(const std::vector<VkFormat>&
 		throw std::runtime_error("failed to find supported format!");
 }
 
-void VrausPercival::Device::createInstance()
+void vraus_percival::Device::createInstance()
 {
 	if (enableValidationLayers && !checkValidationLayerSupport()) {
 		throw std::runtime_error("validation layers requested, but not available!");
@@ -83,12 +83,12 @@ void VrausPercival::Device::createInstance()
 		throw std::runtime_error("Failed to create instance!");
 }
 
-void VrausPercival::Device::createSurface()
+void vraus_percival::Device::createSurface()
 {
 	window.createWindowSurface(instance, &_surface);
 }
 
-void VrausPercival::Device::pickPhysicalDevice()
+void vraus_percival::Device::pickPhysicalDevice()
 {
 	uint32_t deviceCount = 0;
 	vkEnumeratePhysicalDevices(instance, &deviceCount, nullptr);
@@ -119,7 +119,7 @@ void VrausPercival::Device::pickPhysicalDevice()
 		throw std::runtime_error("Failed to find a suitable GPU!");
 }
 
-void VrausPercival::Device::createLogicalDevice()
+void vraus_percival::Device::createLogicalDevice()
 {
 	// Specifying Queue Families
 	QueueFamilyIndices indices = findQueueFamilies(physicalDevice);
@@ -171,7 +171,7 @@ void VrausPercival::Device::createLogicalDevice()
 	vkGetDeviceQueue(_device, indices.presentFamily.value(), 0, &_presentQueue);
 }
 
-void VrausPercival::Device::createCommandPool()
+void vraus_percival::Device::createCommandPool()
 {
 	QueueFamilyIndices queueFamilyIndices = findPhysicalQueueFamilies();
 
@@ -185,14 +185,14 @@ void VrausPercival::Device::createCommandPool()
 		throw std::runtime_error("Failed to create command pool !");
 }
 
-void VrausPercival::Device::mainLoop()
+void vraus_percival::Device::mainLoop()
 {
 	// while (!window.shouldClose()) {
 	// 	glfwPollEvents();
 	// }
 }
 
-void VrausPercival::Device::cleanup() const
+void vraus_percival::Device::cleanup() const
 {
 	vkDestroySwapchainKHR(_device, swapChain, nullptr);
 	vkDestroyDevice(_device, nullptr);
@@ -208,7 +208,7 @@ void VrausPercival::Device::cleanup() const
 	glfwTerminate();
 }
 
-void VrausPercival::Device::setupDebugMessenger()
+void vraus_percival::Device::setupDebugMessenger()
 {
 	if (!enableValidationLayers) return;
 
@@ -220,7 +220,7 @@ void VrausPercival::Device::setupDebugMessenger()
 	}
 }
 
-void VrausPercival::Device::populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo)
+void vraus_percival::Device::populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo)
 {
 	createInfo = {};
 	createInfo.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
@@ -231,7 +231,7 @@ void VrausPercival::Device::populateDebugMessengerCreateInfo(VkDebugUtilsMesseng
 	createInfo.pfnUserCallback = debugcallback;
 }
 
-bool VrausPercival::Device::checkValidationLayerSupport()
+bool vraus_percival::Device::checkValidationLayerSupport()
 {
 	uint32_t layerCount = 0;
 	vkEnumerateInstanceLayerProperties(&layerCount, nullptr);
@@ -256,7 +256,7 @@ bool VrausPercival::Device::checkValidationLayerSupport()
 	return true;
 }
 
-std::vector<const char*> VrausPercival::Device::getRequiredExtensions() const
+std::vector<const char*> vraus_percival::Device::getRequiredExtensions() const
 {
 	uint32_t glfwExtensionCount = 0;
 	const char** glfwExtensions;
@@ -271,7 +271,7 @@ std::vector<const char*> VrausPercival::Device::getRequiredExtensions() const
 	return extensions;
 }
 
-int VrausPercival::Device::rateDeviceSuitability(VkPhysicalDevice device)
+int vraus_percival::Device::rateDeviceSuitability(VkPhysicalDevice device)
 {
 	VkPhysicalDeviceProperties deviceProperties;
 	VkPhysicalDeviceFeatures deviceFeatures;
@@ -314,7 +314,7 @@ int VrausPercival::Device::rateDeviceSuitability(VkPhysicalDevice device)
 	return score;
 }
 
-bool VrausPercival::Device::checkDeviceExtensionSupport(VkPhysicalDevice device)
+bool vraus_percival::Device::checkDeviceExtensionSupport(VkPhysicalDevice device)
 {
 	uint32_t extensionCount;
 	vkEnumerateDeviceExtensionProperties(device, nullptr, &extensionCount, nullptr);
@@ -331,7 +331,7 @@ bool VrausPercival::Device::checkDeviceExtensionSupport(VkPhysicalDevice device)
 	return requiredExtensions.empty();
 }
 
-VrausPercival::QueueFamilyIndices VrausPercival::Device::findQueueFamilies(VkPhysicalDevice device) const
+vraus_percival::QueueFamilyIndices vraus_percival::Device::findQueueFamilies(VkPhysicalDevice device) const
 {
 	QueueFamilyIndices indices;
 
@@ -365,7 +365,7 @@ VrausPercival::QueueFamilyIndices VrausPercival::Device::findQueueFamilies(VkPhy
 	return indices;
 }
 
-VrausPercival::SwapChainSupportDetails VrausPercival::Device::querySwapChainSupport(VkPhysicalDevice device)
+vraus_percival::SwapChainSupportDetails vraus_percival::Device::querySwapChainSupport(VkPhysicalDevice device)
 {
 	SwapChainSupportDetails details;
 
@@ -391,7 +391,7 @@ VrausPercival::SwapChainSupportDetails VrausPercival::Device::querySwapChainSupp
 	return details;
 }
 
-VKAPI_ATTR VkBool32 VKAPI_CALL VrausPercival::Device::debugcallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity, VkDebugUtilsMessageTypeFlagsEXT messageType, const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData, void* pUserData)
+VKAPI_ATTR VkBool32 VKAPI_CALL vraus_percival::Device::debugcallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity, VkDebugUtilsMessageTypeFlagsEXT messageType, const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData, void* pUserData)
 {
 	std::cerr << "Validation  layer: " << pCallbackData->pMessage << std::endl;
 	return VK_FALSE;

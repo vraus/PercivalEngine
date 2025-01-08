@@ -17,12 +17,12 @@ VrausPercival::Pipeline::Pipeline(Device& device_, const std::string& vertFilePa
 }
 */
 
-VrausPercival::Pipeline::Pipeline(const std::string& vertFilePath, const std::string& fragFilePath)
+vraus_percival::Pipeline::Pipeline(const std::string& vertFilePath, const std::string& fragFilePath)
 {
 	createGraphicsPipeline(vertFilePath, fragFilePath);
 }
 
-VrausPercival::Pipeline::~Pipeline()
+vraus_percival::Pipeline::~Pipeline()
 {
 	// vkDestroyShaderModule(device.device(), fragShaderModule, nullptr);
 	// vkDestroyShaderModule(device.device(), vertShaderModule, nullptr);
@@ -125,7 +125,7 @@ void VrausPercival::Pipeline::createPipelineLayout()
 }
 */
 
-void VrausPercival::Pipeline::createGraphicsPipeline(const std::string& vertFilePath, const std::string& fragFilePath)
+void vraus_percival::Pipeline::createGraphicsPipeline(const std::string& vertFilePath, const std::string& fragFilePath)
 {
 	// assert(configInfo.pipelineLayout != VK_NULL_HANDLE && "Cannot create graphics pipeline without pipelinelayout provided in configIngo !");
 	// assert(configInfo.renderPass != VK_NULL_HANDLE && "Cannot create graphics pipeline without renderPass provided in configInfo !");
@@ -196,7 +196,7 @@ void VrausPercival::Pipeline::cleanup()
 }
 */
 
-std::vector<char> VrausPercival::Pipeline::readFile(const std::string& filename)
+std::vector<char> vraus_percival::Pipeline::readFile(const std::string& filename)
 {	
 	std::ifstream file{ filename, std::ios::ate | std::ios::binary};
 

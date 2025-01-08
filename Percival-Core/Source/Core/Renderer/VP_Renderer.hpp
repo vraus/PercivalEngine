@@ -4,7 +4,7 @@
 #include "../api/VP_Device.hpp"
 #include "../api/VP_SwapChain.hpp"
 
-namespace VrausPercival {
+namespace vraus_percival {
 
 	class Renderer
 	{

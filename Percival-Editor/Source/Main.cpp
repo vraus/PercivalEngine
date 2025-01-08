@@ -7,7 +7,7 @@
 
 int main() {
 	
-	VrausPercival::Engine engine{};
+	vraus_percival::Engine engine{};
 
 	try {
 		engine.run(); // The editor runs the Core Engine

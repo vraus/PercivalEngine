@@ -6,7 +6,7 @@
 
 #include <vector>
 
-namespace VrausPercival {
+namespace vraus_percival {
 
 	class SwapChain
 	{

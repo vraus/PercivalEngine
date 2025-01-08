@@ -2,24 +2,24 @@
 
 #include <iostream>
 
-VrausPercival::Window::Window(int w, int h, std::string name) : width { w }, height { h }, windowName { name }
+vraus_percival::Window::Window(int w, int h, std::string name) : width { w }, height { h }, windowName { name }
 {
 	initwindow();
 }
 
-VrausPercival::Window::~Window() {
+vraus_percival::Window::~Window() {
 	glfwDestroyWindow(window);
 	glfwTerminate();
 }
 
-void VrausPercival::Window::createWindowSurface(VkInstance instance, VkSurfaceKHR* surface)
+void vraus_percival::Window::createWindowSurface(VkInstance instance, VkSurfaceKHR* surface)
 {
 	if (glfwCreateWindowSurface(instance, window, nullptr, surface) != VK_SUCCESS) {
 		throw std::runtime_error("Failed to create window surface");
 	}
 }
 
-VkExtent2D VrausPercival::Window::chooseSwapExtent(const VkSurfaceCapabilitiesKHR capabilities)
+VkExtent2D vraus_percival::Window::chooseSwapExtent(const VkSurfaceCapabilitiesKHR capabilities)
 {
 	if (capabilities.currentExtent.width != int(std::numeric_limits<uint32_t>::max)) {
 		return capabilities.currentExtent;
@@ -40,7 +40,7 @@ VkExtent2D VrausPercival::Window::chooseSwapExtent(const VkSurfaceCapabilitiesKH
 	}
 }
 
-void VrausPercival::Window::initwindow()
+void vraus_percival::Window::initwindow()
 {
 	glfwInit();
 	glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);

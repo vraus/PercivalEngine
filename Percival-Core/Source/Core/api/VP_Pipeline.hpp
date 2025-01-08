@@ -3,7 +3,7 @@
 #include "VP_Device.hpp"
 #include "VP_SwapChain.hpp"
 
-namespace VrausPercival {
+namespace vraus_percival {
 
 	struct PipelineConfigInfo {
 		VkViewport viewport;
