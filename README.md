@@ -63,6 +63,14 @@ The `Scripts/` directory contains build scripts for Windows and Linux, and the `
     + [Build you own](https://github.com/codecrafters-io/build-your-own-x)
       + [Tinyrenderer](https://github.com/ssloy/tinyrenderer/wiki)
 
+## What's Next ?
+
+> Some futur features idea
+
++ Built-in landscape automatic generation
+  + Using a random heightmap generator with parameter tweeking
+    + Using Diamond-Square algorithm to generate the heightmap or other approaches...
+
 ## License
 
 + UNLICENSE for this repository (see `UNLICENSE.txt` for more details)
