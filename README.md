@@ -70,6 +70,9 @@ The `Scripts/` directory contains build scripts for Windows and Linux, and the `
 + Built-in landscape automatic generation
   + Using a random heightmap generator with parameter tweeking
     + Using Diamond-Square algorithm to generate the heightmap or other approaches...
++ How to integrate sound in the engine ?
+  + Use Wwise to plug the sound ?
+  + Or use a [raytracing method for 3D sound rendering](https://www.youtube.com/watch?v=u6EuAUjq92k) ... could be fun!!
 
 ## License
 
