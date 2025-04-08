@@ -67,7 +67,10 @@ The `Scripts/` directory contains build scripts for Windows and Linux, and the `
 
 > Some futur features idea
 
-+ Built-in landscape automatic generation
++ Built-in procedural generation
+  + Using Wave Collapse Function Algorithm to generate dunjons maybe ?
+    + [example video](https://www.youtube.com/watch?v=qRtrj6Pua2A)
+    + Needless to say I love procedural generation ...
   + Using a random heightmap generator with parameter tweeking
     + Using Diamond-Square algorithm to generate the heightmap or other approaches...
 + How to integrate sound in the engine ?
