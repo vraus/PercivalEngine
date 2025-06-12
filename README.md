@@ -6,6 +6,8 @@
 >
 > ***Started Date:** 07/07/2024*
 
+This project is currently on hold. I'm taking a complete course of the **Vulkan API** thanks to **Udemy**, so that I can have a more in-depth knowledge of the **Vulkan Graphics API** and Graphics Programming in general.
+
 ## Introduction
 
 **This is the futur new version of my old previous [Tiny Renderer Engine](https://github.com/vraus/testVulkan)... But now trying to make it correctly using and architecture and a builder.**
